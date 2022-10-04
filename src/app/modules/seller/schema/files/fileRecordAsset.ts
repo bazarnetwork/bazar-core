@@ -1,25 +1,31 @@
-export const fileRecordSchema = {
-    $id: 'bazar/seller/fileRecord',
+export const fileRecordAssetSchema = {
+    $id: 'bazar/seller/filesAsset',
+    title: 'filesAsset transaction asset for Seller module',
     type: 'object',
     required: ['filename', 'fileType', 'fileCategory', 'hash'],
     properties: {
-        filename: {
+        orderId: {
             fieldNumber: 1,
+            dataType: 'string',
+            maxLength: 500
+        },
+        filename: {
+            fieldNumber: 2,
             dataType: 'string',
             maxLength: 50
         },
         fileType: {
-            fieldNumber: 2,
+            fieldNumber: 3,
             dataType: 'string',
             maxLength: 5
         },
         fileCategory: {
-            fieldNumber: 3,
+            fieldNumber: 4,
             dataType: 'string',
             maxLength: 50
         }, 
         hash: {
-            fieldNumber: 4,
+            fieldNumber: 5,
             dataType: 'string',
         },
     },

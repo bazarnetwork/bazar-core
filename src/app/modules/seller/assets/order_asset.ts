@@ -5,14 +5,14 @@ import {
     codec,
     StateStore,
     ValidateAssetContext } from 'lisk-sdk';
-import { allOrdersSchema } from '../schema/allOrdersSchema';    
-import { AllOrders } from '../../../../utils/types/asset/order/allOrders';
-import { orderSchema } from '../schema/orderSchema';
-import { registerOrderAssetSchema } from '../schema/registerOrderAsset';
-import { RegisterOrderType } from '../../../../utils/types/asset/order/registerOrderAssetType';
-import { RegisterOrderAccountType } from '../../../../utils/types/module/order/registerOrderAccountType';
+import { allOrdersSchema } from '../schema/order/allOrdersSchema';    
+import { AllOrders } from '../types/order/allOrders';
+import { orderSchema } from '../schema/order/orderSchema';
+import { registerOrderAssetSchema } from '../schema/order/registerOrderAsset';
+import { RegisterOrderType } from '../types/order/registerOrderAssetType';
+import { RegisterOrderAccountType } from '../types/order/registerOrderAccountType';
 
-const getIdForOrder = (address: Buffer, nonce: bigint): Buffer => {
+const getId = (address: Buffer, nonce: bigint): Buffer => {
     const nonceBuffer = Buffer.alloc(8);
     nonceBuffer.writeBigInt64BE(nonce);
     const seed = Buffer.concat([address, nonceBuffer]);
@@ -39,26 +39,31 @@ export class OrderAsset extends BaseAsset {
 	public validate({ asset }: ValidateAssetContext<RegisterOrderType>): void {
 		if (asset.productId.length <= 0) {
 			throw new Error('Product Id is empty');
-		}
-		if (asset.productName.length <= 0) {
+		} else if (asset.productName.length <= 0) {
 			throw new Error('Product Name is empty');
-		}
-		if (asset.price <= 0) {
+		} else if (asset.minQuantityToSell <= 0) {
+			throw new Error('Min quantity to sell does not have a valid value');
+		} else if (asset.quantity <= 0) {
+			throw new Error('Quantity does not have a valid value');
+		} else if (asset.price <= 0) {
 			throw new Error('Price does not have a valid value');
 		}
 	}
 
 	// eslint-disable-next-line @typescript-eslint/require-await
   public async apply({ asset, transaction, stateStore }: ApplyAssetContext<RegisterOrderType>): Promise<void> {
-		const sender = await stateStore.account.get<RegisterOrderAccountType>(transaction.senderAddress);        
-        const orderId = getIdForOrder(transaction.senderAddress, transaction.nonce).toString('hex');
+		const sender = await stateStore.account.get<RegisterOrderAccountType>(transaction.senderAddress);
+        const orderId = getId(transaction.senderAddress, transaction.nonce).toString('hex');
 
         const order = {
             id: orderId,
             productId: asset.productId,
             productName: asset.productName,
             productDescription: asset.productDescription,
+            minQuantityToSell: asset.minQuantityToSell,
+            quantity: asset.quantity,
             price: asset.price,
+            files: [],
             date: Math.floor(Date.now() / 1000),
             author: sender.address
         };
@@ -68,12 +73,8 @@ export class OrderAsset extends BaseAsset {
         const allOrders: AllOrders = await getAllOrders(stateStore);
         allOrders.orders.push(orderId);
         await stateStore.chain.set('order/all', codec.encode(allOrdersSchema, allOrders));
-        
-        /*if (!sender.) {
-            sender.order.orders = [];
-        }*/
+
         sender.seller.orders.push(orderId);
-        //sender.order.orders = [...orderId];
         await stateStore.account.set(sender.address, sender);
 	}
 }

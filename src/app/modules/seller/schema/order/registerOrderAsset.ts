@@ -2,7 +2,7 @@ export const registerOrderAssetSchema = {
     $id: 'bazar/seller/registerOrderAsset',
     title: 'registerOrderAsset transaction asset for Seller module',
     type: 'object',
-    required: ['productId', 'productName', 'productDescription', 'price'],
+    required: ['productId', 'productName', 'productDescription', 'quantity', 'price'],
     properties: {
         productId: {
             fieldNumber: 1,
@@ -19,9 +19,17 @@ export const registerOrderAssetSchema = {
             dataType: 'string',
             maxLength: 500,
         },
-        price: {
+        minQuantityToSell: {
             fieldNumber: 4,
             dataType: 'uint64',
         },
+        quantity: {
+            fieldNumber: 5,
+            dataType: 'uint64',
+        },
+        price: {
+            fieldNumber: 6,
+            dataType: 'uint64',
+        }
     },
 };

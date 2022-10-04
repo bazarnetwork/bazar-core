@@ -8,14 +8,15 @@ import {
     codec,
     TransactionApplyContext
 } from 'lisk-sdk';
-import { AllOrders } from '../../../utils/types/asset/order/allOrders';
-import { OrderType } from '../../../utils/types/module/order/orderType';
-import { RegisterOrderAccountType } from '../../../utils/types/module/order/registerOrderAccountType';
+import { AllOrders } from './types/order/allOrders';
+import { OrderType } from './types/order/orderType';
+import { RegisterOrderAccountType } from './types/order/registerOrderAccountType';
+import { FilesAsset } from "./assets/files_asset";
 import { OrderAsset } from "./assets/order_asset";
-import { allOrdersSchema } from './schema/allOrdersSchema';
-import { orderSchema } from './schema/orderSchema';
-import { registerOrderAssetSchema } from './schema/registerOrderAsset';
-import { sellerPropsSchema } from './schema/schemaModule';
+import { allOrdersSchema } from './schema/order/allOrdersSchema';
+import { orderSchema } from './schema/order/orderSchema';
+import { registerOrderAssetSchema } from './schema/order/registerOrderAsset';
+import { sellerPropsSchema } from './schema/account/schemaModule';
 
 export class SellerModule extends BaseModule {
     public actions = {
@@ -45,7 +46,7 @@ export class SellerModule extends BaseModule {
     };
     public reducers = {};
     public name = 'seller';
-    public transactionAssets = [new OrderAsset()];
+    public transactionAssets = [new OrderAsset(), new FilesAsset()];
     public events = ['newOrder'];
     public id = 7007;
     public accountSchema = sellerPropsSchema;

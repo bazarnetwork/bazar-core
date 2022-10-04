@@ -3,7 +3,9 @@ export interface OrderTypeJSON {
     productId: string;
     productName: string;
     productDescription: string;
-    price: number;
+    minQuantityToSell: number,
+    quantity: number;
+    price: number;    
     date: number;
     author: string;
 };

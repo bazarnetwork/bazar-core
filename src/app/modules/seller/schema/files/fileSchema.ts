@@ -1,39 +1,40 @@
-export const orderSchema = {
-    $id: 'bazar/orders',
-    title: 'registerOrderAsset transaction asset',
+export const fileSchema = {
+    $id: 'bazar/files',
+    title: 'fileSchama transaction for Files Asset',
     type: 'object',
     properties: {
         id: {
             fieldNumber: 1,
             dataType: 'string',
-            maxLength: 50,
+            maxLength: 500,
         },
-        productId: {
+        filename: {
             fieldNumber: 2,
             dataType: 'string',
-            maxLength: 50,
+            maxLength: 200,
         },
-        productName: {
+        fileType: {
             fieldNumber: 3,
             dataType: 'string',
-            maxLength: 100,
+            maxLength: 50,
         },
-        productDescription: {
+        fileCategory: {
             fieldNumber: 4,
+            dataType: 'string',
+            maxLength: 50,
+        },
+        hash: {
+            fieldNumber: 5,
             dataType: 'string',
             maxLength: 500,
         },
-        price: {
-            fieldNumber: 5,
-            dataType: 'uint64',
-        },
         date: {
-            fieldNumber: 7,
+            fieldNumber: 6,
             dataType: 'uint32'
         },
         author: {
-            fieldNumber: 8,
+            fieldNumber: 7,
             dataType: 'bytes'
         },
-    },
+    }
 };
