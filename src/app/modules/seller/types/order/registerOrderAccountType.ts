@@ -14,5 +14,6 @@ export interface RegisterOrderAccountType {
     seller: {
         orders: string[];    
         files: string[];
+        transport: string[];
     }
 };

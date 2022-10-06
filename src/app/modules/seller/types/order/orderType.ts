@@ -12,6 +12,13 @@ export interface OrderType {
         fileCategory: string;
         hash: string;
     }[];
+    transport: {
+        origin: string;
+        destiny: string;
+        location: string;
+        date: number;
+        status: string;
+    }[];
     date: number;
     author: Buffer;
 };
