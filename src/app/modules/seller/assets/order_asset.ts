@@ -64,6 +64,7 @@ export class OrderAsset extends BaseAsset {
             quantity: asset.quantity,
             price: asset.price,
             files: [],
+            transport: [],
             date: Math.floor(Date.now() / 1000),
             author: sender.address
         };

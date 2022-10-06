@@ -3,7 +3,7 @@ export const allFileSchema = {
     type: 'object',
     required: ['files'],
     properties: {
-        orders: {
+        files: {
             fieldNumber: 1,
             type: 'array',
             items: {

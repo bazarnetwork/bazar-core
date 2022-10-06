@@ -16,10 +16,18 @@ export const sellerPropsSchema: AccountSchema = {
             items: {
                 dataType: 'string',
             },
+        },
+        transport: {
+            fieldNumber: 3,
+            type: 'array',
+            items: {
+                dataType: 'string',
+            },
         }
     },
     default: {
         orders: [],
         files: [],
+        transport: [],
     }
 };

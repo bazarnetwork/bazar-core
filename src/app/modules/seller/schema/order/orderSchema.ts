@@ -68,12 +68,45 @@ export const orderSchema = {
                 },
             },
         },
-        date: {
+        transport: {
             fieldNumber: 9,
+            type: 'array',            
+            items: {
+                type: 'object',
+                properties: {
+                    origin: {
+                        fieldNumber: 1,
+                        dataType: 'string',
+                    },
+                    destiny: {
+                        fieldNumber: 2,
+                        dataType: 'string',
+                    },                    
+                    location:  {
+                        fieldNumber: 3,
+                        dataType: 'string',
+                    },
+                    date: {
+                        fieldNumber: 4,
+                        dataType: 'uint32',
+                    },
+                    status: {
+                        fieldNumber: 5,
+                        dataType: 'string',
+                    },
+                    author: {
+                        fieldNumber: 6,
+                        dataType: 'bytes',
+                    },
+                },
+            },
+        },
+        date: {
+            fieldNumber: 10,
             dataType: 'uint32'
         },
         author: {
-            fieldNumber: 10,
+            fieldNumber: 11,
             dataType: 'bytes'
         },
     },
