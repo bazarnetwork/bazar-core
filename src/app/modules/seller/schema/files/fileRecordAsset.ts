@@ -2,7 +2,7 @@ export const fileRecordAssetSchema = {
     $id: 'bazar/seller/filesAsset',
     title: 'filesAsset transaction asset for Seller module',
     type: 'object',
-    required: ['filename', 'fileType', 'fileCategory', 'hash'],
+    required: ['orderId', 'filename', 'fileType', 'fileCategory', 'hash'],
     properties: {
         orderId: {
             fieldNumber: 1,

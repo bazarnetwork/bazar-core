@@ -11,4 +11,11 @@ export interface RegisterOrderType {
         fileCategory: string;
         hash: string;
     }[];
+    transport: {
+        origin: string;
+        destiny: string;
+        location: string;
+        date: number;
+        status: string;
+    }[];
 };
