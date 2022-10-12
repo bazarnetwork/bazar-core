@@ -11498,5 +11498,12 @@
     "minEntranceFeePriority": "0",
     "minReplacementFeeDifference": "10"
   },
-  "plugins": {}
+  "plugins": {
+    "faucet": {
+        "encryptedPassphrase": "iterations=1000000&cipherText=ca1868096c7548192c552b46b52fc3f672b020a029d3eae8ecfe4b6160302a80b67fb433b5c0615d0099be9e4849dd9375f0a5e7d00d01450b633b0291d26a647f0343f33dc4dbfcc5b6b4fe&iv=59036ca8a4c3ed73f4ef2228&salt=443f553231ba7898805c40c5e838cf19&tag=1fa4f8f8e4a2dfaf5e8c8e906303eee0&version=1",
+        "captchaSecretkey": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
+        "captchaSitekey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+        "tokenPrefix": "bzr"
+    }
+  }
 }
