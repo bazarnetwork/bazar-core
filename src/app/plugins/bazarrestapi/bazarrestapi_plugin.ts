@@ -2,20 +2,21 @@ import { BasePlugin, PluginInfo } from 'lisk-sdk';
 import type { BaseChannel, EventsDefinition, ActionsDefinition, SchemaWithDefault } from 'lisk-sdk';
 import * as cors from 'cors';
 import * as express from 'express';
+import * as multer from 'multer';
 import { Server } from 'http';
+//import sendTransaction from './controller/transaction/sendTransaction';
 import postFileController from './controller/files/postFileController';
-import sendTransaction from './controller/transaction/sendTransaction';
+import path = require('path');
 
  /* eslint-disable class-methods-use-this */
  /* eslint-disable  @typescript-eslint/no-empty-function */
- export class OrderPlugin extends BasePlugin {
-	// private _channel!: BaseChannel;
+ export class BazarrestapiPlugin extends BasePlugin {
     private _app: express.Express | undefined = undefined;
     private _server: Server | undefined = undefined;
     private _channel: BaseChannel | undefined = undefined;
 
 	public static get alias(): string {
-		return 'order';
+		return 'bazarrestapi';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/class-literal-property-style
@@ -23,14 +24,14 @@ import sendTransaction from './controller/transaction/sendTransaction';
 		return {
 			author: 'Diego Cortes',
 			version: '0.1.0',
-			name: 'order',
+			name: 'bazarrestapi',
 		};
 	}
 
 	// eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
 	public get defaults(): SchemaWithDefault {
 		return {
-			$id: '/plugins/plugin-order/config',
+			$id: '/plugins/plugin-bazarrestapi/config',
 			type: 'object',
 			properties: {},
 			required: [],
@@ -39,37 +40,43 @@ import sendTransaction from './controller/transaction/sendTransaction';
 	}
 
 	public get events(): EventsDefinition {
-		return [];
+		return [
+			// 'block:created',
+			// 'block:missed'
+		];
 	}
 
 	public get actions(): ActionsDefinition {
-		return {};
+		return {
+		// 	hello: async () => { hello: 'world' },
+		};
 	}
 
 	public async load(channel: BaseChannel): Promise<void> {
         this._app = express();
         this._channel = channel;
+        //const upload = multer({ dest: 'uploads/' });
+        /*const storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, 'uploads/')
+            },
+            filename: function (req, file, cb) {
+                cb(null, Date.now() + path.extname(file.originalname))
+            }
+        });*/
+        const storage = multer.memoryStorage();
+        const upload = multer({ storage: storage});
+
 
         this._app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT']}));
         this._app.use(express.json())
         
-        this._app.get('/files/new', postFileController());
-        this._app.get('/transaction/new', sendTransaction(this._channel, this.codec));
+        this._app.post('/files/new', upload.single('file'), postFileController());
+        //this._app.get('/transaction/new', sendTransaction(this._channel, this.codec));
 
 		this._server = this._app.listen(8088, '0.0.0.0');
 	}
 
-	public async unload(): Promise<void> {
-        await new Promise<void>((resolve, reject) => {
-            if (this._server) {
-              this._server.close((err: unknown) => {
-                if (err) {
-                  reject(err);
-                  return;
-                }
-                resolve();
-              });
-            }
-          });
-    }
+	public async unload(): Promise<void> {}
 }
+
