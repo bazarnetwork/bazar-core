@@ -1,4 +1,4 @@
-import { BaseAsset, ApplyAssetContext, ValidateAssetContext, cryptography, codec, StateStore } from 'lisk-sdk';
+import { BaseAsset, ApplyAssetContext, ValidateAssetContext, cryptography, codec } from 'lisk-sdk';
 import { fileRecordAssetSchema } from '../schema/files/fileRecordAsset';
 import { orderSchema } from '../schema/order/orderSchema';
 import { FileRecordType } from '../types/files/fileRecordType';
