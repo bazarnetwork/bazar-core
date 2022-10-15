@@ -1,6 +1,6 @@
-// import * as plugins from '../../../src/app/plugins/order';
+// import * as plugins from '../../../src/app/plugins/bazarrestapi';
 
-describe('OrderPlugin', () => {
+describe('BazarrestapiPlugin', () => {
 	describe('alias', () => {
 		it.todo('should have valid alias');
 	});
