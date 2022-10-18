@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilesAsset constructor should have valid schema 1`] = `
+Object {
+  "$id": "bazar/seller/filesAsset",
+  "properties": Object {
+    "fileCategory": Object {
+      "dataType": "string",
+      "fieldNumber": 4,
+      "maxLength": 50,
+    },
+    "fileType": Object {
+      "dataType": "string",
+      "fieldNumber": 3,
+      "maxLength": 5,
+    },
+    "filename": Object {
+      "dataType": "string",
+      "fieldNumber": 2,
+      "maxLength": 50,
+    },
+    "hash": Object {
+      "dataType": "string",
+      "fieldNumber": 5,
+    },
+    "orderId": Object {
+      "dataType": "string",
+      "fieldNumber": 1,
+      "maxLength": 500,
+    },
+  },
+  "required": Array [
+    "orderId",
+    "filename",
+    "fileType",
+    "fileCategory",
+    "hash",
+  ],
+  "title": "filesAsset transaction asset for Seller module",
+  "type": "object",
+}
+`;
