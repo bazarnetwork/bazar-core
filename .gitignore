@@ -43,4 +43,4 @@ config.local.json
 
 # Build Directory
 dist
-*.snap
+

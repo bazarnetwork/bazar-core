@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransportStatusAsset constructor should have valid schema 1`] = `
+Object {
+  "$id": "bazar/seller/transportStatusAsset",
+  "properties": Object {
+    "date": Object {
+      "dataType": "uint32",
+      "fieldNumber": 5,
+    },
+    "destiny": Object {
+      "dataType": "string",
+      "fieldNumber": 3,
+      "maxLength": 100,
+    },
+    "location": Object {
+      "dataType": "string",
+      "fieldNumber": 4,
+      "maxLength": 100,
+    },
+    "orderId": Object {
+      "dataType": "string",
+      "fieldNumber": 1,
+      "maxLength": 500,
+    },
+    "origin": Object {
+      "dataType": "string",
+      "fieldNumber": 2,
+      "maxLength": 100,
+    },
+    "status": Object {
+      "dataType": "string",
+      "fieldNumber": 6,
+      "maxLength": 50,
+    },
+  },
+  "required": Array [
+    "orderId",
+    "origin",
+    "destiny",
+    "location",
+    "status",
+  ],
+  "title": "transportStatusAsset transaction asset for seller module",
+  "type": "object",
+}
+`;
