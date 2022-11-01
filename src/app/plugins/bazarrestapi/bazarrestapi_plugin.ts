@@ -55,15 +55,6 @@ import path = require('path');
 	public async load(channel: BaseChannel): Promise<void> {
         this._app = express();
         this._channel = channel;
-        //const upload = multer({ dest: 'uploads/' });
-        /*const storage = multer.diskStorage({
-            destination: function (req, file, cb) {
-                cb(null, 'uploads/')
-            },
-            filename: function (req, file, cb) {
-                cb(null, Date.now() + path.extname(file.originalname))
-            }
-        });*/
         const storage = multer.memoryStorage();
         const upload = multer({ storage: storage});
 
@@ -72,7 +63,6 @@ import path = require('path');
         this._app.use(express.json())
         
         this._app.post('/files/new', upload.single('file'), postFileController());
-        //this._app.get('/transaction/new', sendTransaction(this._channel, this.codec));
 
 		this._server = this._app.listen(8088, '0.0.0.0');
 	}
