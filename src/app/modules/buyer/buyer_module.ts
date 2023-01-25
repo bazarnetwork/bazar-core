@@ -8,36 +8,34 @@ import {
     codec,
     TransactionApplyContext
 } from 'lisk-sdk';
-import { FilesAsset } from "./assets/files_asset";
+import { allOrdersSchema } from '../seller/schema/order/allOrdersSchema';
+import { AllOrders } from '../seller/types/order/allOrders';
 import { OrderAsset } from "./assets/order_asset";
-import { TransportStatusAsset } from "./assets/transport_status_asset";
-import { sellerPropsSchema } from './schema/account/schemaModule';
-import { allOrdersSchema } from './schema/order/allOrdersSchema';
-import { orderSchema } from './schema/order/orderSchema';
-import { registerOrderAssetSchema } from './schema/order/registerOrderAsset';
-import { AllOrders } from './types/order/allOrders';
-import { OrderType } from './types/order/orderType';
-import { RegisterOrderAccountType } from './types/order/registerOrderAccountType';
+import { buyerPropsSchema } from './schema/account/schemaBuyerModule';
+import { buyerOrderSchema } from './schema/order/buyerOrderSchema';
+import { registerBuyerOrderAssetSchema } from './schema/order/registerBuyerOrderAsset';
+import { BuyerOrderType } from './types/order/BuyerOrderType';
+import { RegisterBuyerOrderAccountType } from './types/order/RegisterBuyerOrderAccountType';
 
-export class SellerModule extends BaseModule {
+export class BuyerModule extends BaseModule {
     public actions = {
         getOrder: async (params: Record<string, unknown>) => {
             const encodedOrder = await this._dataAccess.getChainState(params.id as string);
             if (!encodedOrder) {
                 return {"Info": "Incorrect body payload."};
             } 
-            const decodedOrder = codec.decode<OrderType>(orderSchema, encodedOrder);
-            return codec.toJSON(orderSchema, decodedOrder);
+            const decodedOrder = codec.decode<BuyerOrderType>(buyerOrderSchema, encodedOrder);
+            return codec.toJSON(buyerOrderSchema, decodedOrder);
         },
         getLatestOrder: async (params: Record<string, unknown>) => {
             const { account: address} = params as { account: string };
             if (address) {
                 const account:
-                    | RegisterOrderAccountType
+                    | RegisterBuyerOrderAccountType
                     | undefined = await this._dataAccess.getAccountByAddress(Buffer.from(address, 'hex'));
-                return account.seller.orders;
+                return account.buyer.orders;
             }
-            const allOrderBuffer: Buffer | undefined = await this._dataAccess.getChainState('order/all')
+            const allOrderBuffer: Buffer | undefined = await this._dataAccess.getChainState('purchasing_history/all')
             if (allOrderBuffer) {
                 const allOrders: AllOrders = codec.decode(allOrdersSchema, allOrderBuffer);
                 return allOrders.orders;
@@ -46,11 +44,11 @@ export class SellerModule extends BaseModule {
         }
     };
     public reducers = {};
-    public name = 'seller';
-    public transactionAssets = [new OrderAsset(), new FilesAsset(), new TransportStatusAsset()];
-    public events = ['newOrder'];
-    public id = 7007;
-    public accountSchema = sellerPropsSchema;
+    public name = 'buyer';
+    public transactionAssets = [new OrderAsset()];
+    public events = ['newPurchaseOrder'];
+    public id = 7008;
+    public accountSchema = buyerPropsSchema;
 
     // public constructor(genesisConfig: GenesisConfig) {
     //     super(genesisConfig);
@@ -76,11 +74,14 @@ export class SellerModule extends BaseModule {
 
     public async afterTransactionApply(_input: TransactionApplyContext) {
         if (_input.transaction.moduleID === this.id && _input.transaction.assetID === 0) {
-            const orderAsset = codec.decode(registerOrderAssetSchema, _input.transaction.asset);
 
-            this._channel.publish('seller:newOrder', {
+            const orderAsset = codec.decode(registerBuyerOrderAssetSchema, _input.transaction.asset);
+
+            this._channel.publish('buyer:newPurchaseOrder', {
                 sender: _input.transaction.senderAddress.toString('hex'),
-                productName: orderAsset.productName
+                productName: orderAsset.productName,
+                quantity: orderAsset.quantity,
+                price: orderAsset.prce,
             });
         }
     }
