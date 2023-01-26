@@ -2620,7 +2620,7 @@
   },
   "plugins": {
     "faucet": {
-      "encryptedPassphrase": "iterations=1000000&cipherText=140961b8be4fdd54447a3959a05e7c671ee9f823045787940c524b26bb7ac5395a08e9e04c4d1b3803be6163050fd424321520a43d5f237a40e4d0c872ebd3d79dc09c246a473a78329728f330ac6192eb5c71&iv=a3bbd2ec0515965a932129c1&salt=5e9da9884765a4302a6e294bb5f87456&tag=a84935e53a5803362779b7f8c3c2f2b1&version=1",
+      "encryptedPassphrase": "iterations=1000000&cipherText=b40063d26cf398f55cd08cf7d4fa56b2e31a76915df32a6accd56bd3285b684befc76141a4b914621cae9a1ff0212fc27ff9b99fae2605241059f9a593bb30e71b6781bdbaca6b3849229b8694007699e4&iv=bc80ad80b66a8d246d4aa450&salt=2f5eb6d508d8aa32fee2f1453009e56a&tag=635213617b27d5f1c6362f69a987f5aa&version=1",
       "captchaSecretkey": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
       "captchaSitekey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
       "tokenPrefix": "bzr",
