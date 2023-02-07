@@ -8,30 +8,72 @@ export const buyerOrderSchema = {
             dataType: 'string',
             maxLength: 50,
         },
-        productName: {
+        sellerOrderId: {
             fieldNumber: 2,
             dataType: 'string',
             maxLength: 100,
         },
-        sellerOrderId: {
+        status: {
             fieldNumber: 3,
             dataType: 'string',
             maxLength: 50,
         },
-        quantity: {
+        token: {
             fieldNumber: 4,
+            dataType: 'string',
+            maxLength: 50,
+        },
+        exchangeRate: {
+            fieldNumber: 5,
+            dataType: 'string',
+            maxLength: 50,
+        },
+        valueXKg: {
+            fieldNumber: 6,
+            dataType: 'string',
+            maxLength: 50,
+        },
+        quantity: {
+            fieldNumber: 7,
             dataType: 'uint64',
         },
-        price: {
-            fieldNumber: 5,
-            dataType: 'uint64',
-        },        
+        serviceFee: {
+            fieldNumber: 8,
+            dataType: 'string',
+        },
+        totalPayToken: {
+            fieldNumber: 9,
+            dataType: 'string',
+        },
+        totalPayInUSD: {
+            fieldNumber: 10,
+            dataType: 'string',
+        },
+        transacctionPayment: {
+            fieldNumber: 11,
+            dataType: 'string',
+        },
+        accountSeller: {
+            fieldNumber: 12,
+            dataType: 'string',
+            maxLength: 50,
+        },
+        accountBuyer: {
+            fieldNumber: 13,
+            dataType: 'string',
+            maxLength: 50,
+        },
+        productId: {
+            fieldNumber: 14,
+            dataType: 'string',
+            maxLength: 50,
+        },
         date: {
-            fieldNumber: 6,
+            fieldNumber: 15,
             dataType: 'uint32'
         },
         author: {
-            fieldNumber: 7,
+            fieldNumber: 16,
             dataType: 'bytes'
         },
     },

@@ -1,4 +1,5 @@
 export interface RegisterOrderType {
+    orderId: string;
     productId: string;
     productName: string
     productDescription: string;
