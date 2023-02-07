@@ -79,9 +79,9 @@ export class BuyerModule extends BaseModule {
 
             this._channel.publish('buyer:newPurchaseOrder', {
                 sender: _input.transaction.senderAddress.toString('hex'),
-                productName: orderAsset.productName,
+                status: orderAsset.productId,
                 quantity: orderAsset.quantity,
-                price: orderAsset.prce,
+                price: orderAsset.totalPayInUSD,
             });
         }
     }
