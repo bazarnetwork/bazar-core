@@ -1,7 +1,6 @@
 import {
     ApplyAssetContext,
     BaseAsset,
-    cryptography,
     codec,
     StateStore,
     ValidateAssetContext } from 'lisk-sdk';
@@ -11,13 +10,6 @@ import { orderSchema } from '../schema/order/orderSchema';
 import { registerOrderAssetSchema } from '../schema/order/registerOrderAsset';
 import { RegisterOrderType } from '../types/order/registerOrderAssetType';
 import { RegisterOrderAccountType } from '../types/order/registerOrderAccountType';
-
-const getId = (address: Buffer, nonce: bigint): Buffer => {
-    const nonceBuffer = Buffer.alloc(8);
-    nonceBuffer.writeBigInt64BE(nonce);
-    const seed = Buffer.concat([address, nonceBuffer]);
-    return cryptography.hash(seed);
-};
 
 const getAllOrders = async (stateStore: StateStore) => {
     const all = await stateStore.chain.get('order/all');    
@@ -37,7 +29,9 @@ export class OrderAsset extends BaseAsset {
 	public schema = registerOrderAssetSchema;
 
 	public validate({ asset }: ValidateAssetContext<RegisterOrderType>): void {
-		if (asset.productId.length <= 0) {
+        if (asset.orderId.length <= 0) {
+			throw new Error('Order Id is empty');
+        } else if (asset.productId.length <= 0) {
 			throw new Error('Product Id is empty');
 		} else if (asset.productName.length <= 0) {
 			throw new Error('Product Name is empty');
@@ -53,10 +47,9 @@ export class OrderAsset extends BaseAsset {
 	// eslint-disable-next-line @typescript-eslint/require-await
   public async apply({ asset, transaction, stateStore }: ApplyAssetContext<RegisterOrderType>): Promise<void> {
 		const sender = await stateStore.account.get<RegisterOrderAccountType>(transaction.senderAddress);
-        const orderId = getId(transaction.senderAddress, transaction.nonce).toString('hex');
 
         const order = {
-            id: orderId,
+            id: asset.orderId,
             productId: asset.productId,
             productName: asset.productName,
             productDescription: asset.productDescription,
@@ -69,13 +62,13 @@ export class OrderAsset extends BaseAsset {
             author: sender.address
         };
 
-        await stateStore.chain.set(orderId, codec.encode(orderSchema, order));
+        await stateStore.chain.set(asset.orderId, codec.encode(orderSchema, order));
 
         const allOrders: AllOrders = await getAllOrders(stateStore);
-        allOrders.orders.push(orderId);
+        allOrders.orders.push(asset.orderId);
         await stateStore.chain.set('order/all', codec.encode(allOrdersSchema, allOrders));
 
-        sender.seller.orders.push(orderId);
+        sender.seller.orders.push(asset.orderId);
         await stateStore.account.set(sender.address, sender);
 	}
 }

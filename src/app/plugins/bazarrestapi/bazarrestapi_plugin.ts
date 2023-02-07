@@ -4,7 +4,6 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as multer from 'multer';
 import { Server } from 'http';
-//import sendTransaction from './controller/transaction/sendTransaction';
 import getAccountById from './controller/account/getAccountById';
 import getForgers from './controller/forger/getForgers';
 import getConnectedPeers from './controller/peer/getConnectedPeers';
@@ -61,18 +60,18 @@ import postFileController from './controller/files/postFileController';
         this._app = express();
         this._channel = channel;       
         
-        //const client = await this.getClient();
+        const client = await this.getClient();
         const storage = multer.memoryStorage();
         const upload = multer({ storage: storage});
 
-        this._app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT']}));
+        this._app.use(cors({ origin: '*', methods: ['GET', 'POST']}));
         this._app.use(express.json())
         
-        //this._app.get(`${this.ENDPOINT_PATH}/account/:address`, getAccountById(this._channel, client));
-        //this._app.get(`${this.ENDPOINT_PATH}/forgers`, getForgers(this._channel));
-        //this._app.get(`${this.ENDPOINT_PATH}/peers/connected`, getConnectedPeers(this._channel));
-        //this._app.get(`${this.ENDPOINT_PATH}/blocks`, getLastBlock(this._channel, client));
-        //this._app.get(`${this.ENDPOINT_PATH}/blocks/:id`, getBlockById(this._channel, client));
+        this._app.get(`${this.ENDPOINT_PATH}/account/:address`, getAccountById(this._channel, client));
+        this._app.get(`${this.ENDPOINT_PATH}/forgers`, getForgers(this._channel));
+        this._app.get(`${this.ENDPOINT_PATH}/peers/connected`, getConnectedPeers(this._channel));
+        this._app.get(`${this.ENDPOINT_PATH}/blocks`, getLastBlock(this._channel, client));
+        this._app.get(`${this.ENDPOINT_PATH}/blocks/:id`, getBlockById(this._channel, client));
         this._app.post(`${this.ENDPOINT_PATH}/files/new`, upload.single('file'), postFileController());
 
 		this._server = this._app.listen(8088, '0.0.0.0');
