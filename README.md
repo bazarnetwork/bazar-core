@@ -1,7 +1,11 @@
+<p align="center">
+<img src="https://github.com/bazarnetwork/bazar-landing-page/blob/release/public/assets/Logo.png">
+</p>
+
 <!-- TOC -->
 
 - [1. Introduction](#1-Introduction)
-- [2. Instructions to run a Bazar validator Node](#2-Instructions to run a Bazar validator Node)
+- [2. Instructions to run a Bazar validator Node](#2-Instructions-to-run-a-Bazar-validator-Node)
 
 <!-- TOC -->
 
