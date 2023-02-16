@@ -1,6 +1,25 @@
-# Instructions to run a Bazar validator Node:
+<p align="center">
+<img src="https://github.com/bazarnetwork/bazar-landing-page/blob/release/public/assets/Logo.png" width="460">
+</p>
+
+<!-- TOC -->
+
+- [1. Introduction] (#1-Introduction)
+- [2. Instructions to run a Bazar validator Node] (#2-Instructions to run a Bazar validator Node)
+
+<!-- TOC -->
+
+# 1. Introduction
 
 This project was bootstrapped with [Lisk SDK](https://github.com/LiskHQ/lisk-sdk)
+
+### Start the node
+
+```
+./bin/run start
+```
+
+# 2. Instructions to run a Bazar validator Node
 
 ## Create your account on the network.
 
@@ -13,7 +32,19 @@ You must have an account on the network to be registered in Bazar Testnet and id
 
 ## Setup a Bazar Blockchain Node
 
-<pending>
+Prerequisites: You must have installed Git and NodeJS 16.x and npm 8.1.0 or above.
+
+1. Go to [validator Node branch](https://github.com/bazarnetwork/bazar-core/tree/validatorNode).
+2. Clone the repository or download the zip file. You must see the *bazar-core folder* in your directory.
+3. Did you clone the repository?, then open a terminal and type the next command on the root of the project:
+```
+git checkout validatorNode
+```
+4. If you are using a Linux environmentm execute the command to grant permissions on the files
+```
+chmod -R 777 bazar-core
+```
+5. Continue with the *Register a Delegate* section.
 
 ## Register a Delegate
 
