@@ -45,13 +45,7 @@
   "forging": {
     "force": false,
     "waitThreshold": 2,
-    "delegates": [
-        {
-        "address":"",
-        "encryptedPassphrase":"",
-        "hashOnion":{ }
-         }
-    ]
+    "delegates": [ ]
   },
   "network": {
     "seedPeers": [
