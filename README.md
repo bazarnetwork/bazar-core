@@ -44,7 +44,11 @@ git checkout validatorNode
 ```
 chmod -R 777 bazar-core
 ```
-5. Continue with the *Register a Delegate* section.
+5. Run the command to install the dependencies:
+```
+npm install
+```
+6. Continue with the *Register a Delegate* section.
 
 ## Register a Delegate
 
@@ -57,9 +61,9 @@ You must request to seed node on Bazar Testnet that a new node wants to be a del
 ./bin/run start 
 ```
 4. Wait until the synced process can finished and the current height has the same value of the seed node. You can check it using the dashboard: [testnet-dashboard.bazar.network](https://testnet-dashboard.bazar.network)
-5. Replace the *DELEGATE_NAME* with a custom name; keep in mind the passphrase of the account you have created before. It will be requested to sign the transaction. Create the delegate transaction using the command:
+5. Replace the *DELEGATE_NAME* with a custom name using lowercase; keep in mind the passphrase of the account you have created before. It will be requested to sign the transaction. Create the delegate transaction using the command:
 ```
-./bin/run transaction:create 5 0 1100000000 --asset='{"username":"DELEGATE_NAME"}'.
+./bin/run transaction:create 5 0 1100000000 --asset='{"username":"DELEGATE_NAME"}'
 ```
 Make sure to have enough Bazar Tokens for the transaction. If it is needed, you can use the Faucet of Bazar again.
 6. Copy the transaction generated and send it to the seed node of the Bazar network. Replace the *TRANSACTION* label with the current one.
@@ -96,6 +100,7 @@ It returns information about the account. Take a look at the *depos.delegate* fi
 ./bin/run forging:config --count=4000 --output ./forging_config.json
 ```
 The system will request the passpharse of the account created before and for a password to protect the passphrase. Save the password in a safe location. It will use in the next step. The *forging_config.json* file is generated in the *root* folder. Which contains the address, *encryptedPassphrase* and *hashOnion* values.
+
 3. Go to *<root>/config/default* folder and check the *forging.delegates* section. Replace *ADDRESS_TO_SET*, *ENCRYPRED_PASSPHRASE_TO_SET* and *HASH_ONION_ARRAY_TO_SET* labels with the data from *forging_config.json*
 ```
  "delegates": [
@@ -122,16 +127,17 @@ rm -r ~/.lisk/bazar-core
 ```
 ./bin/run forging:enable BINARY_ADDRESS 0 0 0
 ```
-The parameters sent at end of the command are regarding *HEIGHT*, *MAXHEIGHTPREVIOUSLYFORGED* and *MAXHEIGHTPREVOTED*. The first time when forging the values are 0 0 0. You need to check the status of the node for getting the latest value to start the forging in another opportunity:
-```
-./bin/run forging:status
-```
 The system  returns a message like:
 ```
 Updated forging status:
 {"address":"ADDRESS","forging":true}
 ```
 At this point, the validator node must be forging new blocks.
+
+Note: The parameters sent at end of the command are regarding *HEIGHT*, *MAXHEIGHTPREVIOUSLYFORGED* and *MAXHEIGHTPREVOTED*. The first time when forging the values are 0 0 0. You need to check the status of the node for getting the latest value to start the forging in another opportunity:
+```
+./bin/run forging:status
+```
 
 ## Learn More
 
