@@ -4,22 +4,198 @@
 
 <!-- TOC -->
 
-- [1. Introduction](#1-Introduction)
-- [2. Instructions to run a Bazar validator Node](#2-Instructions-to-run-a-Bazar-validator-Node)
+- [1. Getting Started](#1-Getting-Started)
+- [2. Instructions to build the Core Node](#1-Instructions-to-build-the-core-node)
+- [3. Instructions to run a Bazar validator Node](#3-Instructions-to-run-a-Bazar-validator-Node)
 
 <!-- TOC -->
 
-# 1. Introduction
+# 1. Getting Started
 
-This project was bootstrapped with [Lisk SDK](https://github.com/LiskHQ/lisk-sdk)
+This project was bootstrapped with [Lisk SDK](https://github.com/LiskHQ/lisk-sdk), therefore, most of the transactions with the bazar blockchain can be applied using the [Dashboard Plugin](https://testnet-dashboard.bazar.network/).
 
-### Start the node
+## Custom transaction
 
+**seller:order**: This method sends a transaction to insert a new order from a seller. It contains some details of the product that the seller wants to publish to be available for purchase. *files* field is optional, it can be empty using *"files:"[]*. You can upload files to IPFS, and get the hash value using one of the services of Rest endpoints [here](#Plugins). *OrderId* field uses a UUID unique identifier that is generated using random numbers. You can set random numbers to identify the orderId value or you can find an online UUID Generator. Keep in mind the oderId value will be requered for the nexts step.
 ```
-./bin/run start
+{
+   "orderId":"00cb5bf9-948d-5c36-fafc-563f224ffc6f",
+   "productId":"28352",
+   "productName":"Avocado",
+   "productDescription":"Fruits | Lamb Hass",
+   "minQuantityToSell":"1",
+   "quantity":"100",
+   "price":"2",
+   "files":[
+      {
+         "filename":"blob",
+         "fileType":"IMAGE",
+         "fileCategory":"PRODUCT",
+         "hash":"Qmf7XLnDYgcPEsYoRe5NEzZSDx5vLivgJCLSpKV8Uynzk5"
+      }
+   ]
+```
+**seller:order (empty files)**: 
+```
+{
+   "orderId":"00cb5bf9-948d-5c36-fafc-563f224ffc6f",
+   "productId":"28352",
+   "productName":"Avocado",
+   "productDescription":"Fruits | Lamb Hass",
+   "minQuantityToSell":"1",
+   "quantity":"100",
+   "price":"2",
+   "files":[]
+}
+```
+**seller:getLatestOrder**: With this action, we can check the latest order transactions. It displays a list of transactions with the same value used as orderId.
+**seller:getOrder**: With this action, you can check the details of a seller's order.
+```
+{"id": "00cb5bf9-948d-5c36-fafc-563f224ffc6f"}
+```
+**seller:files**: Additional files can add to the seller's order. This method sends a transaction to register a single file. *seller:getOrder* action uses to check the new file added to the seller's order.
+```
+{
+   "orderId":"00cb5bf9-948d-5c36-fafc-563f224ffc6f",
+   "filename":"blob",
+   "fileType":"IMAGE",
+   "fileCategory":"Certificated",
+   "hash":"QmfJF5Dfi3h97S6jYncbf2r8BfYyLkTiqWVsxwcexV6ApT"
+}
+```
+**seller:transportStatus**: This method sends a transaction to update the transportation status of the product. *seller:getOrder* action uses to check the update of location of product added to the seller's order.
+```
+{
+   "orderId":"00cb5bf9-948d-5c36-fafc-563f224ffc6f",
+   "origin":"Cartagena - Colombia",
+   "destiny":"Valencia - España",
+   "location":"Algeciras - España",
+   "date":1664988693,
+   "status":"In transit"
+}
+```
+**buyer:order**: This method sends a transaction to register a purchase in the web platform. For the moment, the payment process uses BNB token on Binance Smarth Chain, and the receipt saves in bazar chain using this method. The *transactionPayment* field is the Binance Smarth Chain transaction,  you can check additional details on [BscScan](https://testnet.bscscan.com/tx/0x4d0bc2b196475c5dad1053c04ba476482bffa451258f649914b320d15819e654).
+```
+{
+   "buyerOrderId":"7fee7c47-bc06-7288-087a-e87d4c7037ae",
+   "sellerOrderId":"56a75c2b-1da6-6d40-f0d3-c0341ae99827",
+   "status":"Accepted",
+   "token":" BNB",
+   "exchangeRate":"1 BNB : 287.00000000000006 USD",
+   "valueXKg":"2",
+   "quantity":"7",
+   "serviceFee":"0.7000000000000001",
+   "totalPayToken":"0.05121951219512195 BNB",
+   "totalPayInUSD":"14.7 USD",
+   "transacctionPayment":"0x4d0bc2b196475c5dad1053c04ba476482bffa451258f649914b320d15819e654",
+   "accountSeller":"0x17507dcE75457ddA6235885D0b4Fa382A5f0Afee",
+   "accountBuyer":"0xd8F6B47Cdf15e7708C9CBC3eFa6ACE31c5D85dbb",
+   "productId":"63929"
+}
+```
+**buyer:getLatestOrder**: With this action, we can check the latest purchase order transactions. It displays a list of transactions with the same value used as orderId.
+**buyer:getOrder**: With this action, you can check the datils of a buyer's order.
+```
+{"id": "7fee7c47-bc06-7288-087a-e87d4c7037ae"}
 ```
 
-# 2. Instructions to run a Bazar validator Node
+## Modules
+The project contains two modules: seller and buyer. The [seller module](https://github.com/bazarnetwork/bazar-core/blob/release/src/app/modules/seller/seller_module.ts) contains three assets:
+
+1. [Order Asset](https://github.com/bazarnetwork/bazar-core/blob/release/src/app/modules/seller/assets/order_asset.ts)
+2. [File Asset](https://github.com/bazarnetwork/bazar-core/blob/release/src/app/modules/seller/assets/files_asset.ts)
+3. [Transport Status Asset](https://github.com/bazarnetwork/bazar-core/blob/release/src/app/modules/seller/assets/transport_status_asset.ts)
+
+The [buyer module](https://github.com/bazarnetwork/bazar-core/blob/release/src/app/modules/buyer/buyer_module.ts) contains one asset:
+
+1. [Order Asset](https://github.com/bazarnetwork/bazar-core/blob/release/src/app/modules/buyer/assets/order_asset.ts)
+
+## Plugins
+The system has a plugin to expose the [bazarrestapi](https://github.com/bazarnetwork/bazar-core/tree/release/src/app/plugins/bazarrestapi) API Rest for getting some details on-chain: forgers, connected peers, blocks and upload file to IPFS. 
+
+1. Blocks
+```
+https://testnet-service.bazar.network/api/v1/blocks
+```
+2. Forgers
+```
+https://testnet-service.bazar.network/api/v1/forgers
+```
+3. Connected Peers
+```
+https://testnet-service.bazar.network/api/v1/peers/connected
+```
+4. Account details
+```
+https://testnet-service.bazar.network/api/v1/account/93fdd84a20fc1c3bf87f13171b808bce780c1006
+```
+5. Upload IPFS File
+POST Http method https://testnet.bazar.network/api/v1/files/new
+
+The Body must be form-data with:
+
+1. key: file label
+2. value: the image object.
+
+You will see a response like this:
+```
+{
+    "data": {
+        "hash": "QmdAD23BuaZxcx3ykksZEYmnKuVABC9d3SXweEj7UmuZQb",
+        "filename": "e6b2eda8b46531660d1d662067b2a2bf (1).jpg"
+    },
+    "errorMessage": null,
+    "errorCode": null
+}
+```
+
+## Other components of Bazar Network
+
+1. [Bazar-web](https://github.com/bazarnetwork/bazar-web). It contains the web application in ReactJS.
+2. [Bazar-offchain](https://github.com/bazarnetwork/bazar-offchain). This component contains some logic to complete the registration of a user to be approved by an admin in the system as a buyer/seller.
+3. [Bazar-auth](https://github.com/bazarnetwork/bazar-auth). It contains the authentication and authorization component with Two Factor Authentication by SMS. It has some features for user management and uses a data model compatible with GDPR.
+4. [Bazar-lambda-function](https://github.com/bazarnetwork/bazar-lambda-functions). Monorepo with the component for Email notifications. Subscribe for updates and contact us used by the landing page.
+5. [Bazar-landing-page](https://github.com/bazarnetwork/bazar-landing-page). It contains the web site of [Bazar Network](https://www.bazar.network/).
+6. [Bazar-smart-contract](https://github.com/bazarnetwork/bazar-smart-contracts). It has the Solidity code used for Binance Smart Chain contract.
+7. [Bazar-faucet](https://github.com/bazarnetwork/bazar-faucet). Custom project to send BZR token to accounts for testing.
+
+
+# 2. Instructions to build the Core Node
+
+1. Go to [master branch](https://github.com/bazarnetwork/bazar-core).
+2. Clone the repository or download the zip file. You must see the *bazar-core folder* in your directory.
+3. If you are using a Linux environment execute the command to grant permissions on the files
+```
+chmod -R 777 bazar-core
+```
+4. Run the command to install the dependencies:
+```
+npm install
+```
+5. Start the node using
+```
+./bin/run start 
+```
+
+## Send BZR Tokens for testing
+
+1. Go to [Bazar-faucet](https://github.com/bazarnetwork/bazar-faucet)
+2. Clone the repository or download the zip file. You must see the *bazar-faucet folder* in your directory.
+3. Edit the getClient.ts file to remove the SSL Websocket connection
+```
+wss://127.0.0.1:8080/ws   to   ws://127.0.0.1:8080/ws
+```
+4. Edit App.tsx file to add a valid passphrase for testing purposes. You can use one of them [accounts.json](https://github.com/bazarnetwork/bazar-core/blob/deploy/testnet/config/default/accounts.json).
+5. Run the command to install the dependencies:
+```
+npm install
+```
+6.  Start the application using
+```
+npm start
+```
+
+# 3. Instructions to run a Bazar validator Node
 
 ## Create your account on the network.
 
@@ -40,7 +216,7 @@ Prerequisites: You must have installed Git and NodeJS 16.x and npm 8.1.0 or abov
 ```
 git checkout validatorNode
 ```
-4. If you are using a Linux environmentm execute the command to grant permissions on the files
+4. If you are using a Linux environment execute the command to grant permissions on the files
 ```
 chmod -R 777 bazar-core
 ```
