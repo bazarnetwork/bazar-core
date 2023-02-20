@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OrderAsset constructor should have valid schema 1`] = `
+Object {
+  "$id": "bazar/seller/registerOrderAsset",
+  "properties": Object {
+    "minQuantityToSell": Object {
+      "dataType": "uint64",
+      "fieldNumber": 4,
+    },
+    "price": Object {
+      "dataType": "uint64",
+      "fieldNumber": 6,
+    },
+    "productDescription": Object {
+      "dataType": "string",
+      "fieldNumber": 3,
+      "maxLength": 500,
+    },
+    "productId": Object {
+      "dataType": "string",
+      "fieldNumber": 1,
+      "maxLength": 50,
+    },
+    "productName": Object {
+      "dataType": "string",
+      "fieldNumber": 2,
+      "maxLength": 100,
+    },
+    "quantity": Object {
+      "dataType": "uint64",
+      "fieldNumber": 5,
+    },
+  },
+  "required": Array [
+    "productId",
+    "productName",
+    "productDescription",
+    "quantity",
+    "price",
+  ],
+  "title": "registerOrderAsset transaction asset for Seller module",
+  "type": "object",
+}
+`;
