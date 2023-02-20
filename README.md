@@ -5,7 +5,7 @@
 <!-- TOC -->
 
 - [1. Getting Started](#1-Getting-Started)
-- [2. Instructions to build the Core Node](#1-Instructions-to-build-the-core-node)
+- [2. Instructions to build the Core Node](#1-Instructions-to-build-the-Core-Node)
 - [3. Instructions to run a Bazar validator Node](#3-Instructions-to-run-a-Bazar-validator-Node)
 
 <!-- TOC -->
