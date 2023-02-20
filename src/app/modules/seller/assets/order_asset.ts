@@ -48,6 +48,21 @@ export class OrderAsset extends BaseAsset {
   public async apply({ asset, transaction, stateStore }: ApplyAssetContext<RegisterOrderType>): Promise<void> {
 		const sender = await stateStore.account.get<RegisterOrderAccountType>(transaction.senderAddress);
 
+        let newfiles: any[] = [];
+
+        if (asset.files) {
+            newfiles = asset.files.map((file) => {
+                return {
+                    filename: file.filename,
+                    fileType: file.fileType,
+                    fileCategory: file.fileCategory,
+                    hash: file.hash,
+                    date: Math.floor(Date.now() / 1000),
+                    author: sender.address
+                };
+            });
+        }
+
         const order = {
             id: asset.orderId,
             productId: asset.productId,
@@ -56,7 +71,7 @@ export class OrderAsset extends BaseAsset {
             minQuantityToSell: asset.minQuantityToSell,
             quantity: asset.quantity,
             price: asset.price,
-            files: [],
+            files: newfiles,
             transport: [],
             date: Math.floor(Date.now() / 1000),
             author: sender.address
