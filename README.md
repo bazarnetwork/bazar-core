@@ -213,19 +213,16 @@ Prerequisites: You must have installed Git and NodeJS 16.x and npm 8.1.0 or abov
 
 1. Go to [validator Node Repository](https://github.com/bazarnetwork/bazar-validator-node).
 2. Clone the repository or download the zip file. You must see the *bazar-core folder* in your directory.
-3. Did you clone the repository?, then open a terminal and type the next command on the root of the project:
 ```
-git checkout validatorNode
-```
-4. If you are using a Linux environment execute the command to grant permissions on the files
+3. If you are using a Linux environment execute the command to grant permissions on the files
 ```
 chmod -R 777 bazar-core
 ```
-5. Run the command to install the dependencies:
+4. Run the command to install the dependencies:
 ```
 npm install
 ```
-6. Continue with the *Register a Delegate* section.
+5. Continue with the *Register a Delegate* section.
 
 ## Register a Delegate
 
