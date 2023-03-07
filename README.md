@@ -212,7 +212,6 @@ Prerequisites: You must have installed Git and NodeJS 16.x and npm 8.1.0 or abov
 
 1. Go to [validator Node branch](https://github.com/bazarnetwork/bazar-core/tree/validatorNode).
 2. Clone the repository or download the zip file. You must see the *bazar-core folder* in your directory.
-```
 3. If you are using a Linux environment execute the command to grant permissions on the files
 ```
 chmod -R 777 bazar-core
