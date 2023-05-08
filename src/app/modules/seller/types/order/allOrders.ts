@@ -1,3 +1,3 @@
 export interface AllOrders {
-    orders: string[];
+  orders: string[];
 }

@@ -1,17 +1,17 @@
-import { AccountSchema } from "lisk-sdk";
+import { AccountSchema } from 'lisk-sdk';
 
 export const buyerPropsSchema: AccountSchema = {
-    type: 'object',
-    properties: {
-        orders: {
-            fieldNumber: 1,
-            type: 'array',
-            items: {
-                dataType: 'string',
-            },
-        },
+  type: 'object',
+  properties: {
+    orders: {
+      fieldNumber: 1,
+      type: 'array',
+      items: {
+        dataType: 'string',
+      },
     },
-    default: {
-        orders: [],
-    }
-}
+  },
+  default: {
+    orders: [],
+  },
+};

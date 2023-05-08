@@ -6,53 +6,59 @@ import { OrderType } from '../types/order/orderType';
 import { RegisterOrderAccountType } from '../types/order/registerOrderAccountType';
 
 const getId = (address: Buffer, nonce: bigint): Buffer => {
-    const nonceBuffer = Buffer.alloc(8);
-    nonceBuffer.writeBigInt64BE(nonce);
-    const seed = Buffer.concat([address, nonceBuffer]);
-    return cryptography.hash(seed);
+  const nonceBuffer = Buffer.alloc(8);
+  nonceBuffer.writeBigInt64BE(nonce);
+  const seed = Buffer.concat([address, nonceBuffer]);
+  return cryptography.hash(seed);
 };
 
 export class FilesAsset extends BaseAsset {
-	public name = 'files';
-    public id = 1;
-	public schema = fileRecordAssetSchema;
+  public name = 'files';
+  public id = 1;
+  public schema = fileRecordAssetSchema;
 
   public validate({ asset }: ValidateAssetContext<FileRecordType>): void {
     if (asset.filename.length <= 0) {
-        throw new Error('Filename is empty');
+      throw new Error('Filename is empty');
     } else if (asset.fileType.length <= 0) {
-        throw new Error('File Type is empty');
+      throw new Error('File Type is empty');
     } else if (asset.fileCategory.length <= 0) {
-        throw new Error('File Category is empty');
+      throw new Error('File Category is empty');
     } else if (asset.hash.length <= 0) {
-        throw new Error('Hash is empty');
+      throw new Error('Hash is empty');
     }
   }
 
-	// eslint-disable-next-line @typescript-eslint/require-await
-  public async apply({ asset, transaction, stateStore }: ApplyAssetContext<FileRecordType>): Promise<void> {
-    const sender = await stateStore.account.get<RegisterOrderAccountType>(transaction.senderAddress);
-    
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async apply({
+    asset,
+    transaction,
+    stateStore,
+  }: ApplyAssetContext<FileRecordType>): Promise<void> {
+    const sender = await stateStore.account.get<RegisterOrderAccountType>(
+      transaction.senderAddress,
+    );
+
     const orderBuffer = await stateStore.chain.get(asset.orderId);
     if (orderBuffer) {
-        const decodedOrder = codec.decode<OrderType>(orderSchema, orderBuffer);
-                
-        const file = {
-            filename: asset.filename,
-            fileType: asset.fileType,
-            fileCategory: asset.fileCategory,
-            hash: asset.hash,
-            date: Math.floor(Date.now() / 1000),
-            author: sender.address
-        };
-        const fileId = getId(transaction.senderAddress, transaction.nonce).toString('hex');
+      const decodedOrder = codec.decode<OrderType>(orderSchema, orderBuffer);
 
-        decodedOrder.files.push(file);
+      const file = {
+        filename: asset.filename,
+        fileType: asset.fileType,
+        fileCategory: asset.fileCategory,
+        hash: asset.hash,
+        date: Math.floor(Date.now() / 1000),
+        author: sender.address,
+      };
+      const fileId = getId(transaction.senderAddress, transaction.nonce).toString('hex');
 
-        sender.seller.files.push(`${asset.orderId}#${fileId}`);
+      decodedOrder.files.push(file);
 
-        await stateStore.chain.set(asset.orderId, codec.encode(orderSchema, decodedOrder));
-        await stateStore.account.set(sender.address, sender);
-    }    
-  } 
+      sender.seller.files.push(`${asset.orderId}#${fileId}`);
+
+      await stateStore.chain.set(asset.orderId, codec.encode(orderSchema, decodedOrder));
+      await stateStore.account.set(sender.address, sender);
+    }
+  }
 }

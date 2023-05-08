@@ -1,3 +1,3 @@
 export interface AllFiles {
-    files: string[];
+  files: string[];
 }

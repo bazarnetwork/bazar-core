@@ -7,17 +7,17 @@ import { getApplication } from '../../app/app';
 type SignFlags = typeof TransactionSignCommand.flags & { [key: string]: Record<string, unknown> };
 
 export class SignCommand extends TransactionSignCommand {
-	static flags: SignFlags = {
-		...TransactionSignCommand.flags,
-	};
+  static flags: SignFlags = {
+    ...TransactionSignCommand.flags,
+  };
 
-	static args = [...TransactionSignCommand.args];
+  static args = [...TransactionSignCommand.args];
 
-	public getApplication(
-		genesisBlock: Record<string, unknown>,
-		config: PartialApplicationConfig,
-	): Application {
-		const app = getApplication(genesisBlock, config);
-		return app;
-	}
+  public getApplication(
+    genesisBlock: Record<string, unknown>,
+    config: PartialApplicationConfig,
+  ): Application {
+    const app = getApplication(genesisBlock, config);
+    return app;
+  }
 }
