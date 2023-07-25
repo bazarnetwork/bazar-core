@@ -76,7 +76,7 @@ export class BuyerModule extends BaseModule {
 
   public async afterTransactionApply(_input: TransactionApplyContext) {
     if (_input.transaction.moduleID === this.id && _input.transaction.assetID === 0) {
-      const orderAsset = codec.decode(registerBuyerOrderAssetSchema, _input.transaction.asset);
+      const orderAsset:any = codec.decode(registerBuyerOrderAssetSchema, _input.transaction.asset);
 
       this._channel.publish('buyer:newPurchaseOrder', {
         sender: _input.transaction.senderAddress.toString('hex'),
