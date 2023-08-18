@@ -75,6 +75,42 @@ type StartFlags = typeof BaseStartCommand.flags & { // flagParser.Input<any>;
   'dashboard-plugin-port': flagParser.IFlag<number | undefined>;
 };
 export class StartCommand extends BaseStartCommand {
+  public getApplication(
+    genesisBlock: Record<string, unknown>,
+    config: PartialApplicationConfig,
+  ): Application {
+    /* eslint-disable @typescript-eslint/no-unsafe-call */
+    const { flags } = this.parse(StartCommand);
+    // Set Plugins Config
+    setPluginConfig(config as ApplicationConfig, flags);
+    const app = getApplication(genesisBlock, config);
+
+    if (flags['enable-http-api-plugin']) {
+      app.registerPlugin(HTTPAPIPlugin, { loadAsChildProcess: true });
+    }
+    if (flags['enable-forger-plugin']) {
+      app.registerPlugin(ForgerPlugin, { loadAsChildProcess: true });
+    }
+    if (flags['enable-monitor-plugin']) {
+      app.registerPlugin(MonitorPlugin, { loadAsChildProcess: true });
+    }
+    if (flags['enable-report-misbehavior-plugin']) {
+      app.registerPlugin(ReportMisbehaviorPlugin, { loadAsChildProcess: true });
+    }
+    if (flags['enable-faucet-plugin']) {
+      app.registerPlugin(FaucetPlugin, { loadAsChildProcess: true });
+    }
+    if (flags['enable-dashboard-plugin']) {
+      app.registerPlugin(DashboardPlugin, { loadAsChildProcess: true });
+    }
+
+    return app;
+  }
+
+  public getApplicationConfigDir(): string {
+    return join(__dirname, '../../config');
+  }
+
   static flags: StartFlags = {
     ...BaseStartCommand.flags,
     'enable-http-api-plugin': flagParser.boolean({
@@ -150,40 +186,4 @@ export class StartCommand extends BaseStartCommand {
       dependsOn: ['enable-dashboard-plugin'],
     }),
   };
-
-  public getApplication(
-    genesisBlock: Record<string, unknown>,
-    config: PartialApplicationConfig,
-  ): Application {
-    /* eslint-disable @typescript-eslint/no-unsafe-call */
-    const { flags } = this.parse(StartCommand);
-    // Set Plugins Config
-    setPluginConfig(config as ApplicationConfig, flags);
-    const app = getApplication(genesisBlock, config);
-
-    if (flags['enable-http-api-plugin']) {
-      app.registerPlugin(HTTPAPIPlugin, { loadAsChildProcess: true });
-    }
-    if (flags['enable-forger-plugin']) {
-      app.registerPlugin(ForgerPlugin, { loadAsChildProcess: true });
-    }
-    if (flags['enable-monitor-plugin']) {
-      app.registerPlugin(MonitorPlugin, { loadAsChildProcess: true });
-    }
-    if (flags['enable-report-misbehavior-plugin']) {
-      app.registerPlugin(ReportMisbehaviorPlugin, { loadAsChildProcess: true });
-    }
-    if (flags['enable-faucet-plugin']) {
-      app.registerPlugin(FaucetPlugin, { loadAsChildProcess: true });
-    }
-    if (flags['enable-dashboard-plugin']) {
-      app.registerPlugin(DashboardPlugin, { loadAsChildProcess: true });
-    }
-
-    return app;
-  }
-
-  public getApplicationConfigDir(): string {
-    return join(__dirname, '../../config');
-  }
 }
