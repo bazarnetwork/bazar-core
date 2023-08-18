@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { Block } from './types';
 
 export default (channel: BaseChannel, client: apiClient.APIClient) => async (
-  req: Request,
+  _req: Request,
   res: Response,
 ) => {
   try {

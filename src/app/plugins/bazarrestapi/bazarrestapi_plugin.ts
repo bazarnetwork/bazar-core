@@ -14,18 +14,9 @@ import postFileController from './controller/files/postFileController';
 /* eslint-disable class-methods-use-this */
 /* eslint-disable  @typescript-eslint/no-empty-function */
 export class BazarrestapiPlugin extends BasePlugin {
-  private _app: express.Express | undefined = undefined;
-  private _server: Server | undefined = undefined;
-  private _channel: BaseChannel | undefined = undefined;
-  private _client: apiClient.APIClient | undefined = undefined;
-
-  private ENDPOINT_PATH: String = '/api/v1';
-
   public static get alias(): string {
     return 'bazarrestapi';
   }
-
-  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   public static get info(): PluginInfo {
     return {
       author: 'Diego Cortes',
@@ -33,8 +24,6 @@ export class BazarrestapiPlugin extends BasePlugin {
       name: 'bazarrestapi',
     };
   }
-
-  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
   public get defaults(): SchemaWithDefault {
     return {
       $id: '/plugins/plugin-bazarrestapi/config',
@@ -75,6 +64,7 @@ export class BazarrestapiPlugin extends BasePlugin {
     this._app.post(`${this.ENDPOINT_PATH}/files/new`, upload.single('file'), postFileController());
 
     this._server = this._app.listen(8088, '0.0.0.0');
+    console.log(`Max connections: ${this._server.getMaxListeners()}`);
   }
 
   public async unload(): Promise<void> {}
@@ -85,4 +75,13 @@ export class BazarrestapiPlugin extends BasePlugin {
     }
     return this._client;
   }
+  private _app: express.Express | undefined = undefined;
+  private _server: Server | undefined = undefined;
+  private _channel: BaseChannel | undefined = undefined;
+  private _client: apiClient.APIClient | undefined = undefined;
+
+  protected ENDPOINT_PATH: string = '/api/v1';
+
+  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
 }

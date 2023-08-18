@@ -1,7 +1,7 @@
 import { BaseChannel } from 'lisk-framework';
 import { Request, Response } from 'express';
 
-export default (channel: BaseChannel) => async (req: Request, res: Response) => {
+export default (channel: BaseChannel) => async (_req: Request, res: Response) => {
   try {
     const result = await channel.invoke('app:getConnectedPeers');
     res.status(200).json({ data: result, errorMessage: null, errorCode: null });

@@ -59,8 +59,21 @@ const setPluginConfig = (config: ApplicationConfig, flags: Flags): void => {
   }
 };
 
-type StartFlags = typeof BaseStartCommand.flags & flagParser.Input<any>;
 
+type StartFlags = typeof BaseStartCommand.flags & { // flagParser.Input<any>;
+  'enable-http-api-plugin': flagParser.IFlag<boolean | undefined>;
+  'http-api-plugin-port': flagParser.IFlag<number | undefined>;
+  'http-api-plugin-whitelist': flagParser.IFlag<string | undefined>;
+  'enable-forger-plugin': flagParser.IFlag<boolean | undefined>;
+  'enable-monitor-plugin': flagParser.IFlag<boolean | undefined>;
+  'monitor-plugin-port': flagParser.IFlag<number | undefined>;
+  'monitor-plugin-whitelist': flagParser.IFlag<string | undefined>;
+  'enable-report-misbehavior-plugin': flagParser.IFlag<boolean | undefined>;
+  'enable-faucet-plugin': flagParser.IFlag<boolean | undefined>;
+  'faucet-plugin-port': flagParser.IFlag<number | undefined>;
+  'enable-dashboard-plugin': flagParser.IFlag<boolean | undefined>;
+  'dashboard-plugin-port': flagParser.IFlag<number | undefined>;
+};
 export class StartCommand extends BaseStartCommand {
   static flags: StartFlags = {
     ...BaseStartCommand.flags,

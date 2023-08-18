@@ -76,7 +76,7 @@ export class SellerModule extends BaseModule {
 
   public async afterTransactionApply(_input: TransactionApplyContext) {
     if (_input.transaction.moduleID === this.id && _input.transaction.assetID === 0) {
-      const orderAsset = codec.decode(registerOrderAssetSchema, _input.transaction.asset);
+      const orderAsset: any = codec.decode(registerOrderAssetSchema, _input.transaction.asset);
 
       this._channel.publish('seller:newOrder', {
         sender: _input.transaction.senderAddress.toString('hex'),

@@ -1,7 +1,15 @@
-import { channel } from 'diagnostics_channel';
-import { Request, Response } from 'express';
-
-import { BaseChannel, cryptography, PluginCodec, TransactionJSON, transactions } from 'lisk-sdk';
+// import { channel } from 'diagnostics_channel';
+import {
+  Request,
+  Response,
+} from 'express';
+import {
+  BaseChannel,
+  cryptography,
+  PluginCodec,
+  TransactionJSON,
+  transactions
+} from 'lisk-sdk';
 
 export const getSchema = async (channel: BaseChannel): Promise<Record<string, unknown>> =>
   channel.invoke('app:getSchema');
@@ -54,21 +62,22 @@ export default (channel: BaseChannel, codec: PluginCodec) => async (
   response: Response,
 ) => {
   try {
-    const payload = request.body as { payload: Record<string, unknown> };
+    const payload: any = request.body;// as { payload: Record<string, unknown> };
     if (payload.moduleID !== undefined || payload.assetID !== undefined) {
       const passphrase = ''; // TODO
       const publicKey = cryptography.getPrivateAndPublicKeyFromPassphrase(passphrase);
 
-      const transactionAssets = getSchema.transactionsAssets as {
-        moduleID: payload.moduleID;
-        assetID: payload.assetID;
+      const transactionAssets = (await getSchema(channel)).transactionsAssets as {
+        moduleID: Record<string, unknown>; // payload.moduleID;
+        assetID: Record<string, unknown>; // payload.assetID;
         schema: Record<string, unknown>;
       }[];
 
       const index = transactionAssets.findIndex(
         t => t.moduleID === payload.moduleID && t.assetID === payload.assetID,
       );
-      const schema = transactionAssets[index].schema;
+      const { schema } = transactionAssets[index];
+      const netId: any = (await getNodeInfo(channel)).networkIdentifier;
 
       const { id, ...tx } = transactions.signTransaction(
         schema,
@@ -78,7 +87,7 @@ export default (channel: BaseChannel, codec: PluginCodec) => async (
           nonce: BigInt(payload.nonce as string),
           senderPublicKey: publicKey,
         },
-        Buffer.from(getNodeInfo.networkIdentifier, 'hex'),
+        Buffer.from(netId, 'hex'),
         passphrase,
       );
 
@@ -92,7 +101,7 @@ export default (channel: BaseChannel, codec: PluginCodec) => async (
       throw new Error('Transaction has incorrect parameters');
     }
   } catch (err: unknown) {
-    request.status(409).json({
+    response.status(409).json({
       data: (err as string).toString(),
       meta: request.body as { payload: Record<string, unknown> },
     });
