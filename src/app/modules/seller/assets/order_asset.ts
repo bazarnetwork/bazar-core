@@ -11,11 +11,11 @@ const getAllOrders = async (stateStore: StateStore) => {
   if (all) {
     const orders: AllOrders = codec.decode(allOrdersSchema, all);
     return orders;
-  } else {
+  } 
     return {
       orders: [],
     };
-  }
+  
 };
 
 export class OrderAsset extends BaseAsset {
@@ -52,16 +52,14 @@ export class OrderAsset extends BaseAsset {
     let newfiles: any[] = [];
 
     if (asset.files) {
-      newfiles = asset.files.map(file => {
-        return {
+      newfiles = asset.files.map(file => ({
           filename: file.filename,
           fileType: file.fileType,
           fileCategory: file.fileCategory,
           hash: file.hash,
           date: Math.floor(Date.now() / 1000),
           author: sender.address,
-        };
-      });
+        }));
     }
 
     const order = {

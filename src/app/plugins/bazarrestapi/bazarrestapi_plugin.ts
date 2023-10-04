@@ -51,7 +51,7 @@ export class BazarrestapiPlugin extends BasePlugin {
 
     const client = await this.getClient();
     const storage = multer.memoryStorage();
-    const upload = multer({ storage: storage });
+    const upload = multer({ storage });
 
     this._app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
     this._app.use(express.json());

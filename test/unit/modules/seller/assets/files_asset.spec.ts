@@ -9,11 +9,11 @@ describe('FilesAsset', () => {
 
   describe('constructor', () => {
     it('should have valid id', () => {
-      expect(transactionAsset.id).toEqual(1);
+      expect(transactionAsset.id).toBe(1);
     });
 
     it('should have valid name', () => {
-      expect(transactionAsset.name).toEqual('files');
+      expect(transactionAsset.name).toBe('files');
     });
 
     it('should have valid schema', () => {

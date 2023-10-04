@@ -13,11 +13,11 @@ const getAllOrders = async (stateStore: StateStore) => {
   if (all) {
     const orders: AllOrders = codec.decode(allOrdersSchema, all);
     return orders;
-  } else {
+  } 
     return {
       orders: [],
     };
-  }
+  
 };
 
 export class OrderAsset extends BaseAsset {
@@ -91,7 +91,7 @@ export class OrderAsset extends BaseAsset {
         await stateStore.chain.set(asset.buyerOrderId, codec.encode(buyerOrderSchema, buyerOrder));
 
         // updading inventory
-        decodedOrder.quantity = decodedOrder.quantity - asset.quantity;
+        decodedOrder.quantity -= asset.quantity;
 
         const allOrders: AllOrders = await getAllOrders(stateStore);
         allOrders.orders.push(asset.buyerOrderId);

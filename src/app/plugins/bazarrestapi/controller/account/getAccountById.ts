@@ -9,7 +9,7 @@ export default (channel: BaseChannel, client: apiClient.APIClient) => async (
   const { address } = req.params;
   try {
     const result: string | Buffer = await channel.invoke('app:getAccount', {
-      address: address,
+      address,
     });
     const accountObject = client.account.decode(result);
     const accountJSON = client.account.toJSON(accountObject);

@@ -9,11 +9,11 @@ describe('PurchaseAsset', () => {
 
   describe('constructor', () => {
     it('should have valid id', () => {
-      expect(transactionAsset.id).toEqual(1);
+      expect(transactionAsset.id).toBe(1);
     });
 
     it('should have valid name', () => {
-      expect(transactionAsset.name).toEqual('purchase');
+      expect(transactionAsset.name).toBe('purchase');
     });
 
     it('should have valid schema', () => {

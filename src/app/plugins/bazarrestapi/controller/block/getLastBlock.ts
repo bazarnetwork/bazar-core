@@ -9,7 +9,7 @@ export default (channel: BaseChannel, client: apiClient.APIClient) => async (
 ) => {
   try {
     const result: string | Buffer = await channel.invoke('app:getLastBlock');
-    const blockObject: Block<string | Buffer> = client.block.decode(result);
+    const blockObject: Block = client.block.decode(result);
     const blockJSON = client.block.toJSON(blockObject);
     res.status(200).json({ data: blockJSON, errorMessage: null, errorCode: null });
   } catch (err: unknown) {

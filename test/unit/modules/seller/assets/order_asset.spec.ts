@@ -9,11 +9,11 @@ describe('OrderAsset', () => {
 
   describe('constructor', () => {
     it('should have valid id', () => {
-      expect(transactionAsset.id).toEqual(0);
+      expect(transactionAsset.id).toBe(0);
     });
 
     it('should have valid name', () => {
-      expect(transactionAsset.name).toEqual('order');
+      expect(transactionAsset.name).toBe('order');
     });
 
     it('should have valid schema', () => {

@@ -9,11 +9,11 @@ describe('TransportStatusAsset', () => {
 
   describe('constructor', () => {
     it('should have valid id', () => {
-      expect(transactionAsset.id).toEqual(2);
+      expect(transactionAsset.id).toBe(2);
     });
 
     it('should have valid name', () => {
-      expect(transactionAsset.name).toEqual('transportStatus');
+      expect(transactionAsset.name).toBe('transportStatus');
     });
 
     it('should have valid schema', () => {
