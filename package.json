@@ -52,8 +52,8 @@
     }
   },
   "dependencies": {
-    "@liskhq/lisk-framework-dashboard-plugin": "0.2.0-rc.0",
-    "@liskhq/lisk-framework-faucet-plugin": "0.2.0-rc.0",
+    "@liskhq/lisk-framework-dashboard-plugin": "0.2.0",
+    "@liskhq/lisk-framework-faucet-plugin": "0.2.0",
     "@oclif/command": "^1.8.36",
     "@oclif/plugin-autocomplete": "2.3.8",
     "@oclif/plugin-help": "5.2.19",
@@ -63,8 +63,8 @@
     "fs-extra": "11.1.1",
     "inquirer": "9.2.11",
     "ipfs-http-client": "57.0.3",
-    "lisk-commander": "5.2.0-rc.0",
-    "lisk-sdk": "5.3.0-rc.0",
+    "lisk-commander": "5.2.0",
+    "lisk-sdk": "5.3.0",
     "multer": "^1.4.5-lts.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
