@@ -8,7 +8,8 @@ import {
   cryptography,
   PluginCodec,
   TransactionJSON,
-  transactions
+  transactions,
+  Transaction,
 } from 'lisk-sdk';
 
 export const getSchema = async (channel: BaseChannel): Promise<Record<string, unknown>> =>
@@ -62,7 +63,7 @@ export default (channel: BaseChannel, codec: PluginCodec) => async (
   response: Response,
 ) => {
   try {
-    const payload: any = request.body;// as { payload: Record<string, unknown> };
+    const payload = request.body as Transaction;// as { payload: Record<string, unknown> };
     if (payload.moduleID !== undefined || payload.assetID !== undefined) {
       const passphrase = ''; // TODO
       const publicKey = cryptography.getPrivateAndPublicKeyFromPassphrase(passphrase);

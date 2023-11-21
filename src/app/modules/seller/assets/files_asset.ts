@@ -13,9 +13,6 @@ const getId = (address: Buffer, nonce: bigint): Buffer => {
 };
 
 export class FilesAsset extends BaseAsset {
-  public name = 'files';
-  public id = 1;
-  public schema = fileRecordAssetSchema;
 
   public validate({ asset }: ValidateAssetContext<FileRecordType>): void {
     if (asset.filename.length <= 0) {
@@ -61,4 +58,7 @@ export class FilesAsset extends BaseAsset {
       await stateStore.account.set(sender.address, sender);
     }
   }
+  public name = 'files';
+  public id = 1;
+  public schema = fileRecordAssetSchema;
 }

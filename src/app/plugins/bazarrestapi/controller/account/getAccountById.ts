@@ -1,8 +1,8 @@
 import { apiClient } from 'lisk-sdk';
 import { BaseChannel } from 'lisk-framework';
-import { Request, Response } from 'express';
+import { Request, Response , RequestHandler} from 'express';
 
-export default (channel: BaseChannel, client: apiClient.APIClient) => async (
+export default (channel: BaseChannel, client: apiClient.APIClient): RequestHandler => async (
   req: Request,
   res: Response,
 ) => {

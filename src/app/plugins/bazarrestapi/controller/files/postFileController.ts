@@ -1,9 +1,9 @@
 import { create } from 'ipfs-http-client';
-import { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 
-export default () => async (req: Request, res: Response) => {
+export default (): RequestHandler => async (req: Request, res: Response) => {
   try {
-    const ipfs = await create();
+    const ipfs = create();
     const { file } = req;
     if (file) {
       const { cid } = await ipfs.add({ path: file.originalname, content: file.buffer });
@@ -13,7 +13,7 @@ export default () => async (req: Request, res: Response) => {
         errorCode: null,
       });
     } else {
-      new Error('No File found.')
+      throw new Error('No File found.')
     }
   } catch (err: unknown) {
     res.status(400).json({

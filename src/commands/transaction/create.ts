@@ -9,12 +9,6 @@ type CreateFlags = typeof TransactionCreateCommand.flags & {
 };
 
 export class CreateCommand extends TransactionCreateCommand {
-  static flags: CreateFlags = {
-    ...TransactionCreateCommand.flags,
-  };
-
-  static args = [...TransactionCreateCommand.args];
-
   public getApplication(
     genesisBlock: Record<string, unknown>,
     config: PartialApplicationConfig,
@@ -22,4 +16,10 @@ export class CreateCommand extends TransactionCreateCommand {
     const app = getApplication(genesisBlock, config);
     return app;
   }
+
+  static flags: CreateFlags = {
+    ...TransactionCreateCommand.flags,
+  };
+
+  static args = [...TransactionCreateCommand.args];
 }

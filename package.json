@@ -65,6 +65,7 @@
     "inquirer": "7.3.2",
     "ipfs-http-client": "56.0.3",
     "lisk-commander": "5.2.0",
+    "lisk-framework": "0.10.0",
     "lisk-sdk": "5.3.0",
     "multer": "^1.4.5-lts.1",
     "swagger-jsdoc": "^6.2.8",
@@ -73,8 +74,9 @@
     "tslib": "1.13.0"
   },
   "devDependencies": {
-    "@oclif/dev-cli": "1.26.10",
     "@oclif/config": "1.18.3",
+    "@types/cors": "^2.8.17",
+    "@oclif/dev-cli": "1.26.10",
     "@types/fs-extra": "11.0.2",
     "@types/jest": "29.5.5",
     "@types/jest-when": "3.5.3",

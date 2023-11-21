@@ -7,12 +7,6 @@ import { getApplication } from '../../app/app';
 type SignFlags = typeof TransactionSignCommand.flags & { [key: string]: Record<string, unknown> };
 
 export class SignCommand extends TransactionSignCommand {
-  static flags: SignFlags = {
-    ...TransactionSignCommand.flags,
-  };
-
-  static args = [...TransactionSignCommand.args];
-
   public getApplication(
     genesisBlock: Record<string, unknown>,
     config: PartialApplicationConfig,
@@ -20,4 +14,10 @@ export class SignCommand extends TransactionSignCommand {
     const app = getApplication(genesisBlock, config);
     return app;
   }
+
+  static flags: SignFlags = {
+    ...TransactionSignCommand.flags,
+  };
+
+  static args = [...TransactionSignCommand.args];
 }

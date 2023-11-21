@@ -11,18 +11,14 @@ const getAllOrders = async (stateStore: StateStore) => {
   if (all) {
     const orders: AllOrders = codec.decode(allOrdersSchema, all);
     return orders;
-  } 
+  }
     return {
       orders: [],
     };
-  
+
 };
 
 export class OrderAsset extends BaseAsset {
-  public name = 'order';
-  public id = 0;
-  public schema = registerOrderAssetSchema;
-
   public validate({ asset }: ValidateAssetContext<RegisterOrderType>): void {
     if (asset.orderId.length <= 0) {
       throw new Error('Order Id is empty');
@@ -49,18 +45,16 @@ export class OrderAsset extends BaseAsset {
       transaction.senderAddress,
     );
 
-    let newfiles: any[] = [];
-
-    if (asset.files) {
-      newfiles = asset.files.map(file => ({
+    const newfiles = (asset.files)
+      ? asset.files.map(file => ({
           filename: file.filename,
           fileType: file.fileType,
           fileCategory: file.fileCategory,
           hash: file.hash,
           date: Math.floor(Date.now() / 1000),
           author: sender.address,
-        }));
-    }
+        }))
+      : [];
 
     const order = {
       id: asset.orderId,
@@ -85,4 +79,8 @@ export class OrderAsset extends BaseAsset {
     sender.seller.orders.push(asset.orderId);
     await stateStore.account.set(sender.address, sender);
   }
+
+  public name = 'order';
+  public id = 0;
+  public schema = registerOrderAssetSchema;
 }

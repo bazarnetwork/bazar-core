@@ -13,11 +13,6 @@ const getId = (address: Buffer, nonce: bigint): Buffer => {
 };
 
 export class TransportStatusAsset extends BaseAsset {
-  public name = 'transportStatus';
-  public id = 2;
-
-  // Define schema for asset
-  public schema = transportStatusAssetSchema;
 
   public validate({ asset }: ValidateAssetContext<TransportStatusType>): void {
     if (asset.orderId.length <= 0) {
@@ -39,9 +34,9 @@ export class TransportStatusAsset extends BaseAsset {
     transaction,
     stateStore,
   }: ApplyAssetContext<TransportStatusType>): Promise<void> {
-    const sender = await stateStore.account.get<RegisterOrderAccountType>(
-      transaction.senderAddress,
-    );
+    const sender = await stateStore
+      .account
+      .get<RegisterOrderAccountType>(transaction.senderAddress);
 
     const orderBuffer = await stateStore.chain.get(asset.orderId);
     if (orderBuffer) {
@@ -66,4 +61,9 @@ export class TransportStatusAsset extends BaseAsset {
       await stateStore.account.set(sender.address, sender);
     }
   }
+  public name = 'transportStatus';
+  public id = 2;
+
+  // Define schema for asset
+  public schema = transportStatusAssetSchema;
 }

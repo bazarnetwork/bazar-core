@@ -15,9 +15,47 @@ import { buyerPropsSchema } from './schema/account/schemaBuyerModule';
 import { buyerOrderSchema } from './schema/order/buyerOrderSchema';
 import { registerBuyerOrderAssetSchema } from './schema/order/registerBuyerOrderAsset';
 import { BuyerOrderType } from './types/order/BuyerOrderType';
+import { RegisterOrderType } from './types/order/registerBuyerOrderType'
 import { RegisterBuyerOrderAccountType } from './types/order/RegisterBuyerOrderAccountType';
 
 export class BuyerModule extends BaseModule {
+  // Lifecycle hooks
+  public async beforeBlockApply(_input: BeforeBlockApplyContext) {
+    // Get any data from stateStore using block info, below is an example getting a generator
+    // const generatorAddress = getAddressFromPublicKey(_input.block.header.generatorPublicKey);
+    // const generator = await _input.stateStore.account.get<TokenAccount>(generatorAddress);
+  }
+
+  public async afterBlockApply(_input: AfterBlockApplyContext) {
+    // Get any data from stateStore using block info, below is an example getting a generator
+    // const generatorAddress = getAddressFromPublicKey(_input.block.header.generatorPublicKey);
+    // const generator = await _input.stateStore.account.get<TokenAccount>(generatorAddress);
+  }
+
+  public async beforeTransactionApply(_input: TransactionApplyContext) {
+    // Get any data from stateStore using transaction info, below is an example
+    // const sender = await _input.stateStore.account.getOrDefault<TokenAccount>(_input.transaction.senderAddress);
+  }
+
+  public async afterTransactionApply(_input: TransactionApplyContext) {
+    if (_input.transaction.moduleID === this.id && _input.transaction.assetID === 0) {
+      const orderAsset = codec.decode<RegisterOrderType>(registerBuyerOrderAssetSchema, _input.transaction.asset);
+
+      const pub = this._channel.publish('buyer:newPurchaseOrder', {
+        sender: _input.transaction.senderAddress.toString('hex'),
+        status: orderAsset.productId,
+        quantity: orderAsset.quantity,
+        price: orderAsset.totalPayInUSD,
+      });
+      return Promise.resolve(pub);
+    }
+    return Promise.reject();
+  }
+
+  public async afterGenesisBlockApply(_input: AfterGenesisBlockApplyContext) {
+    // Get any data from genesis block, for example get all genesis accounts
+    // const genesisAccounts = genesisBlock.header.asset.accounts;
+  }
   public actions = {
     getOrder: async (params: Record<string, unknown>) => {
       const encodedOrder = await this._dataAccess.getChainState(params.id as string);
@@ -56,39 +94,4 @@ export class BuyerModule extends BaseModule {
   //     super(genesisConfig);
   // }
 
-  // Lifecycle hooks
-  public async beforeBlockApply(_input: BeforeBlockApplyContext) {
-    // Get any data from stateStore using block info, below is an example getting a generator
-    // const generatorAddress = getAddressFromPublicKey(_input.block.header.generatorPublicKey);
-    // const generator = await _input.stateStore.account.get<TokenAccount>(generatorAddress);
-  }
-
-  public async afterBlockApply(_input: AfterBlockApplyContext) {
-    // Get any data from stateStore using block info, below is an example getting a generator
-    // const generatorAddress = getAddressFromPublicKey(_input.block.header.generatorPublicKey);
-    // const generator = await _input.stateStore.account.get<TokenAccount>(generatorAddress);
-  }
-
-  public async beforeTransactionApply(_input: TransactionApplyContext) {
-    // Get any data from stateStore using transaction info, below is an example
-    // const sender = await _input.stateStore.account.getOrDefault<TokenAccount>(_input.transaction.senderAddress);
-  }
-
-  public async afterTransactionApply(_input: TransactionApplyContext) {
-    if (_input.transaction.moduleID === this.id && _input.transaction.assetID === 0) {
-      const orderAsset: any = codec.decode(registerBuyerOrderAssetSchema, _input.transaction.asset);
-
-      this._channel.publish('buyer:newPurchaseOrder', {
-        sender: _input.transaction.senderAddress.toString('hex'),
-        status: orderAsset.productId,
-        quantity: orderAsset.quantity,
-        price: orderAsset.totalPayInUSD,
-      });
-    }
-  }
-
-  public async afterGenesisBlockApply(_input: AfterGenesisBlockApplyContext) {
-    // Get any data from genesis block, for example get all genesis accounts
-    // const genesisAccounts = genesisBlock.header.asset.accounts;
-  }
 }

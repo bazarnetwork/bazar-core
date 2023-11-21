@@ -53,17 +53,41 @@ export class BazarrestapiPlugin extends BasePlugin {
     const storage = multer.memoryStorage();
     const upload = multer({ storage });
 
-    this._app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
+    this._app.use(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      cors({ origin: '*', methods: ['GET', 'POST'] })
+    );
+
     this._app.use(express.json());
 
-    this._app.get(`${this.ENDPOINT_PATH}/account/:address`, getAccountById(this._channel, client));
-    this._app.get(`${this.ENDPOINT_PATH}/forgers`, getForgers(this._channel));
-    this._app.get(`${this.ENDPOINT_PATH}/peers/connected`, getConnectedPeers(this._channel));
-    this._app.get(`${this.ENDPOINT_PATH}/blocks`, getLastBlock(this._channel, client));
-    this._app.get(`${this.ENDPOINT_PATH}/blocks/:id`, getBlockById(this._channel, client));
-    this._app.post(`${this.ENDPOINT_PATH}/files/new`, upload.single('file'), postFileController());
+    this._app.get(
+      `${this.ENDPOINT_PATH}/account/:address`,
+      getAccountById(this._channel, client),
+    );
+    this._app.get(
+      `${this.ENDPOINT_PATH}/forgers`,
+      getForgers(this._channel),
+    );
+    this._app.get(
+      `${this.ENDPOINT_PATH}/peers/connected`,
+      getConnectedPeers(this._channel),
+    );
+    this._app.get(
+      `${this.ENDPOINT_PATH}/blocks`,
+      getLastBlock(this._channel, client),
+    );
+    this._app.get(
+      `${this.ENDPOINT_PATH}/blocks/:id`,
+      getBlockById(this._channel, client),
+    );
+    this._app.post(
+      `${this.ENDPOINT_PATH}/files/new`,
+      upload.single('file'),
+      postFileController(),
+    );
 
     this._server = this._app.listen(8088, '0.0.0.0');
+    // eslint-disable-next-line no-console
     console.log(`Max connections: ${this._server.getMaxListeners()}`);
   }
 

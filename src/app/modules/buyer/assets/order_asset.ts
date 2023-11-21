@@ -13,18 +13,13 @@ const getAllOrders = async (stateStore: StateStore) => {
   if (all) {
     const orders: AllOrders = codec.decode(allOrdersSchema, all);
     return orders;
-  } 
-    return {
-      orders: [],
-    };
-  
+  }
+  return {
+    orders: [],
+  };
 };
 
 export class OrderAsset extends BaseAsset {
-  public name = 'order';
-  public id = 0;
-  public schema = registerBuyerOrderAssetSchema;
-
   public validate({ asset }: ValidateAssetContext<RegisterOrderType>): void {
     if (asset.buyerOrderId.length <= 0) {
       throw new Error('Buyer Order Id is empty');
@@ -108,4 +103,7 @@ export class OrderAsset extends BaseAsset {
       }
     }
   }
+  public name = 'order';
+  public id = 0;
+  public schema = registerBuyerOrderAssetSchema;
 }

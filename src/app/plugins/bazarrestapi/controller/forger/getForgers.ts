@@ -1,7 +1,10 @@
 import { BaseChannel } from 'lisk-framework';
-import { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 
-export default (channel: BaseChannel) => async (_req: Request, res: Response) => {
+export default (channel: BaseChannel): RequestHandler => async (
+  _req: Request,
+  res: Response,
+) => {
   try {
     const result = await channel.invoke('app:getForgers');
     res.status(200).json({ data: result, errorMessage: null, errorCode: null });

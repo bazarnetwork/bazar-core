@@ -32,6 +32,7 @@ describe('account:create', () => {
   describe('account:create', () => {
     it('should create an account', async () => {
       await AccountCreateCommand.run([], config);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       expect(Object.keys(JSON.parse(results[0])[0])).toEqual([
         'passphrase',
         'privateKey',
@@ -46,6 +47,7 @@ describe('account:create', () => {
     const defaultNumber = 2;
     it('should create multiple accounts', async () => {
       await AccountCreateCommand.run(['--count', defaultNumber.toString()], config);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       expect(JSON.parse(results[0])).toHaveLength(defaultNumber);
     });
   });
