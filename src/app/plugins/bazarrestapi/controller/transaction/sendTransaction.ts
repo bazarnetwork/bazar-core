@@ -63,22 +63,23 @@ export default (channel: BaseChannel, codec: PluginCodec) => async (
   response: Response,
 ) => {
   try {
-    const payload = request.body as Transaction;// as { payload: Record<string, unknown> };
+    const { payload } = request.body as { payload: Record<string, unknown> };
     if (payload.moduleID !== undefined || payload.assetID !== undefined) {
       const passphrase = ''; // TODO
       const publicKey = cryptography.getPrivateAndPublicKeyFromPassphrase(passphrase);
 
       const transactionAssets = (await getSchema(channel)).transactionsAssets as {
-        moduleID: Record<string, unknown>; // payload.moduleID;
-        assetID: Record<string, unknown>; // payload.assetID;
+        moduleID: number;
+        assetID: number;
         schema: Record<string, unknown>;
       }[];
 
       const index = transactionAssets.findIndex(
-        t => t.moduleID === payload.moduleID && t.assetID === payload.assetID,
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        t => `${t.moduleID}` === `${payload.moduleID}` && `${t.assetID}` === `${payload.assetID}`,
       );
       const { schema } = transactionAssets[index];
-      const netId: any = (await getNodeInfo(channel)).networkIdentifier;
+      const netId = (await getNodeInfo(channel)).networkIdentifier as string;
 
       const { id, ...tx } = transactions.signTransaction(
         schema,
