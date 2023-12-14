@@ -13,7 +13,7 @@ import postFileController from './controller/files/postFileController';
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable  @typescript-eslint/no-empty-function */
-export class BazarrestapiPlugin extends BasePlugin {
+export class BazarRestApiPlugin extends BasePlugin {
   public static get alias(): string {
     return 'bazarrestapi';
   }

@@ -1,4 +1,4 @@
-import { TransportStatusAsset } from '../../../../../src/app/modules/seller/assets/transport_status_asset';
+import { TransportStatusAsset } from '../../../../../src/app/modules/seller/assets/transportStatusAsset';
 
 describe('TransportStatusAsset', () => {
   let transactionAsset: TransportStatusAsset;

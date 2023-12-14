@@ -8,9 +8,9 @@ import {
   codec,
   TransactionApplyContext,
 } from 'lisk-sdk';
-import { FilesAsset } from './assets/files_asset';
-import { OrderAsset } from './assets/order_asset';
-import { TransportStatusAsset } from './assets/transport_status_asset';
+import { FilesAsset } from './assets/filesAsset';
+import { OrderAsset } from './assets/orderAsset';
+import { TransportStatusAsset } from './assets/transportStatusAsset';
 import { sellerPropsSchema } from './schema/account/schemaModule';
 import { allOrdersSchema } from './schema/order/allOrdersSchema';
 import { orderSchema } from './schema/order/orderSchema';

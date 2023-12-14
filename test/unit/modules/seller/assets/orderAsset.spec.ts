@@ -1,4 +1,4 @@
-import { OrderAsset } from '../../../../../src/app/modules/buyer/assets/order_asset';
+import { OrderAsset } from '../../../../../src/app/modules/seller/assets/orderAsset';
 
 describe('OrderAsset', () => {
   let transactionAsset: OrderAsset;

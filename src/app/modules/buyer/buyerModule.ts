@@ -10,7 +10,7 @@ import {
 } from 'lisk-sdk';
 import { allOrdersSchema } from '../seller/schema/order/allOrdersSchema';
 import { AllOrders } from '../seller/types/order/allOrders';
-import { OrderAsset } from './assets/order_asset';
+import { OrderAsset } from './assets/orderAsset';
 import { buyerPropsSchema } from './schema/account/schemaBuyerModule';
 import { buyerOrderSchema } from './schema/order/buyerOrderSchema';
 import { registerBuyerOrderAssetSchema } from './schema/order/registerBuyerOrderAsset';

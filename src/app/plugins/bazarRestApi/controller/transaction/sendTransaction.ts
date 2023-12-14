@@ -9,7 +9,7 @@ import {
   PluginCodec,
   TransactionJSON,
   transactions,
-  Transaction,
+  // Transaction,
 } from 'lisk-sdk';
 
 export const getSchema = async (channel: BaseChannel): Promise<Record<string, unknown>> =>

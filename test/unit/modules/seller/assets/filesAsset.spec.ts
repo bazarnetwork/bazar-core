@@ -1,4 +1,4 @@
-import { FilesAsset } from '../../../../../src/app/modules/seller/assets/files_asset';
+import { FilesAsset } from '../../../../../src/app/modules/seller/assets/filesAsset';
 
 describe('FilesAsset', () => {
   let transactionAsset: FilesAsset;
