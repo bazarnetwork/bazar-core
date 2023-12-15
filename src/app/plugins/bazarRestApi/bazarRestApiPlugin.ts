@@ -1,3 +1,4 @@
+import consola from 'consola';
 import { apiClient, BasePlugin, PluginInfo } from 'lisk-sdk';
 import type { BaseChannel, EventsDefinition, ActionsDefinition, SchemaWithDefault } from 'lisk-sdk';
 import * as cors from 'cors';
@@ -65,7 +66,7 @@ export class BazarRestApiPlugin extends BasePlugin {
     this._app.post(`${this.ENDPOINT_PATH}/files/new`, upload.single('file'), postFileController());
 
     this._server = this._app.listen(8088, '0.0.0.0');
-    console.log(`Max connections: ${this._server.getMaxListeners()}`);
+    consola.log(`Max connections: ${this._server.getMaxListeners()}`);
   }
 
   public async unload(): Promise<void> {}

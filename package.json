@@ -59,6 +59,7 @@
     "@oclif/plugin-autocomplete": "1.2.0",
     "@oclif/plugin-help": "5.2.20",
     "axios": "1.6.0",
+    "consola": "^3.2.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "fs-extra": "11.1.1",
@@ -75,8 +76,8 @@
   },
   "devDependencies": {
     "@oclif/config": "1.18.3",
-    "@types/cors": "^2.8.17",
     "@oclif/dev-cli": "1.26.10",
+    "@types/cors": "^2.8.17",
     "@types/fs-extra": "11.0.2",
     "@types/jest": "29.5.5",
     "@types/jest-when": "3.5.3",
