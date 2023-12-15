@@ -1,15 +1,9 @@
-import { BaseAsset, ApplyAssetContext, ValidateAssetContext, cryptography, codec } from 'lisk-sdk';
+import { BaseAsset, ApplyAssetContext, ValidateAssetContext, codec } from 'lisk-sdk';
 import { OrderType, RegisterOrderAccountType } from '../types/orderTypes';
 import { TransportStatusType } from '../types/transportStatusTypes';
 import { transportStatusAssetSchema } from '../schema/transportStatus/transportStatusAsset';
 import { orderSchema } from '../schema/order/orderSchema';
-
-const getId = (address: Buffer, nonce: bigint): Buffer => {
-  const nonceBuffer = Buffer.alloc(8);
-  nonceBuffer.writeBigInt64BE(nonce);
-  const seed = Buffer.concat([address, nonceBuffer]);
-  return cryptography.hash(seed);
-};
+import { getIdFromAddress } from './filesAsset';
 
 export class TransportStatusAsset extends BaseAsset {
   public validate({ asset }: ValidateAssetContext<TransportStatusType>): void {
@@ -49,7 +43,10 @@ export class TransportStatusAsset extends BaseAsset {
         author: sender.address,
       };
 
-      const transportStatusId = getId(transaction.senderAddress, transaction.nonce).toString('hex');
+      const transportStatusId = getIdFromAddress(
+        transaction.senderAddress,
+        transaction.nonce,
+      ).toString('hex');
 
       decodedOrder.transport.push(transport);
 

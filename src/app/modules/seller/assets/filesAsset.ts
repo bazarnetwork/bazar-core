@@ -4,7 +4,7 @@ import { orderSchema } from '../schema/order/orderSchema';
 import { FileRecordType } from '../types/filesTypes';
 import { OrderType, RegisterOrderAccountType } from '../types/orderTypes';
 
-const getId = (address: Buffer, nonce: bigint): Buffer => {
+export const getIdFromAddress = (address: Buffer, nonce: bigint): Buffer => {
   const nonceBuffer = Buffer.alloc(8);
   nonceBuffer.writeBigInt64BE(nonce);
   const seed = Buffer.concat([address, nonceBuffer]);
@@ -46,7 +46,7 @@ export class FilesAsset extends BaseAsset {
         date: Math.floor(Date.now() / 1000),
         author: sender.address,
       };
-      const fileId = getId(transaction.senderAddress, transaction.nonce).toString('hex');
+      const fileId = getIdFromAddress(transaction.senderAddress, transaction.nonce).toString('hex');
 
       decodedOrder.files.push(file);
 

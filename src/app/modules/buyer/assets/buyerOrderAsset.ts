@@ -1,3 +1,4 @@
+// import { validator } from '@liskhq/lisk-validator';
 import { ApplyAssetContext, BaseAsset, codec, StateStore, ValidateAssetContext } from 'lisk-sdk';
 import { allOrdersSchema } from '../../seller/schema/order/allOrdersSchema';
 import { orderSchema } from '../../seller/schema/order/orderSchema';
@@ -6,7 +7,7 @@ import { buyerOrderSchema } from '../schema/order/buyerOrderSchema';
 import { registerBuyerOrderAssetSchema } from '../schema/order/registerBuyerOrderAsset';
 import { RegisterBuyerOrderAccountType, RegisterOrderType } from '../types/orderTypes';
 
-const getAllOrders = async (stateStore: StateStore) => {
+const getAllHistoryOrders = async (stateStore: StateStore) => {
   const all = await stateStore.chain.get('purchasing_history/all');
   if (all) {
     const orders: AllOrders = codec.decode(allOrdersSchema, all);
@@ -48,7 +49,6 @@ export class BuyerOrderAsset extends BaseAsset {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async apply({
     asset,
     transaction,
@@ -86,7 +86,7 @@ export class BuyerOrderAsset extends BaseAsset {
         // updating inventory
         decodedOrder.quantity -= asset.quantity;
 
-        const allOrders: AllOrders = await getAllOrders(stateStore);
+        const allOrders: AllOrders = await getAllHistoryOrders(stateStore);
         allOrders.orders.push(asset.buyerOrderId);
         await stateStore.chain.set(
           'purchasing_history/all',
