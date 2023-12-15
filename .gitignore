@@ -27,7 +27,6 @@ tmux-client-*.log
 stacktrace*
 
 # IDE directories
-.vscode/
 .idea/
 Session.vim
 

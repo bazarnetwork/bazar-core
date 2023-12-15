@@ -21,5 +21,11 @@ module.exports = {
         packageDir: './',
       },
     ],
+    '@typescript-eslint/member-delimiter-style': ['error', {
+      singleline: {
+        delimiter: 'semi',
+        requireLast: false,
+      },
+    }]
   },
 };
