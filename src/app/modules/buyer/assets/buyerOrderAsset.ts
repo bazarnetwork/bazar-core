@@ -19,7 +19,7 @@ const getAllOrders = async (stateStore: StateStore) => {
   };
 };
 
-export class OrderAsset extends BaseAsset {
+export class BuyerOrderAsset extends BaseAsset {
   public validate({ asset }: ValidateAssetContext<RegisterOrderType>): void {
     if (asset.buyerOrderId.length <= 0) {
       throw new Error('Buyer Order Id is empty');
@@ -39,8 +39,8 @@ export class OrderAsset extends BaseAsset {
       throw new Error('Total Payment in Token hasnot value');
     } else if (asset.totalPayInUSD.length <= 0) {
       throw new Error('Total Payment in USD hasnot value');
-    } else if (asset.transacctionPayment.length <= 0) {
-      throw new Error('Transacction Payment is empty');
+    } else if (asset.transactionPayment.length <= 0) {
+      throw new Error('Transaction Payment is empty');
     } else if (asset.accountSeller.length <= 0) {
       throw new Error('Account of seller is empty');
     } else if (asset.accountBuyer.length <= 0) {
@@ -75,7 +75,7 @@ export class OrderAsset extends BaseAsset {
           serviceFee: asset.serviceFee,
           totalPayToken: asset.totalPayToken,
           totalPayInUSD: asset.totalPayInUSD,
-          transacctionPayment: asset.transacctionPayment,
+          transacctionPayment: asset.transactionPayment,
           accountSeller: asset.accountSeller,
           accountBuyer: asset.accountBuyer,
           productId: asset.productId,

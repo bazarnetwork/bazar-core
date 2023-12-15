@@ -10,7 +10,7 @@ import {
 } from 'lisk-sdk';
 import { allOrdersSchema } from '../seller/schema/order/allOrdersSchema';
 import { AllOrders } from '../seller/types/order/allOrders';
-import { OrderAsset } from './assets/orderAsset';
+import { BuyerOrderAsset } from './assets/buyerOrderAsset';
 import { buyerPropsSchema } from './schema/account/schemaBuyerModule';
 import { buyerOrderSchema } from './schema/order/buyerOrderSchema';
 import { registerBuyerOrderAssetSchema } from './schema/order/registerBuyerOrderAsset';
@@ -85,7 +85,7 @@ export class BuyerModule extends BaseModule {
   };
   public reducers = {};
   public name = 'buyer';
-  public transactionAssets = [new OrderAsset()];
+  public transactionAssets = [new BuyerOrderAsset()];
   public events = ['newPurchaseOrder'];
   public id = 7008;
   public accountSchema = buyerPropsSchema;

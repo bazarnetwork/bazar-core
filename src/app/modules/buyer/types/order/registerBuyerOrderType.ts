@@ -9,7 +9,7 @@ export interface RegisterOrderType {
   serviceFee: string;
   totalPayToken: string;
   totalPayInUSD: string;
-  transacctionPayment: string;
+  transactionPayment: string;
   accountSeller: string;
   accountBuyer: string;
   productId: string;

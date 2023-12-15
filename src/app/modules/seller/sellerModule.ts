@@ -9,7 +9,7 @@ import {
   TransactionApplyContext,
 } from 'lisk-sdk';
 import { FilesAsset } from './assets/filesAsset';
-import { OrderAsset } from './assets/orderAsset';
+import { SellerOrderAsset } from './assets/sellerOrderAsset';
 import { TransportStatusAsset } from './assets/transportStatusAsset';
 import { sellerPropsSchema } from './schema/account/schemaModule';
 import { allOrdersSchema } from './schema/order/allOrdersSchema';
@@ -89,7 +89,7 @@ export class SellerModule extends BaseModule {
 
   public reducers = {};
   public name = 'seller';
-  public transactionAssets = [new OrderAsset(), new FilesAsset(), new TransportStatusAsset()];
+  public transactionAssets = [new SellerOrderAsset(), new FilesAsset(), new TransportStatusAsset()];
   public events = ['newOrder'];
   public id = 7007;
   public accountSchema = sellerPropsSchema;

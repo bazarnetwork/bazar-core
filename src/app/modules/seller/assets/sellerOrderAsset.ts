@@ -18,7 +18,7 @@ const getAllOrders = async (stateStore: StateStore) => {
 
 };
 
-export class OrderAsset extends BaseAsset {
+export class SellerOrderAsset extends BaseAsset {
   public validate({ asset }: ValidateAssetContext<RegisterOrderType>): void {
     if (asset.orderId.length <= 0) {
       throw new Error('Order Id is empty');
