@@ -1,10 +1,10 @@
-import { OrderAsset } from '../../../../../src/app/modules/buyer/assets/orderAsset';
+import { BuyerOrderAsset } from '../../../../../src/app/modules/buyer/assets/buyerOrderAsset';
 
 describe('OrderAsset', () => {
-  let transactionAsset: OrderAsset;
+  let transactionAsset: BuyerOrderAsset;
 
   beforeEach(() => {
-    transactionAsset = new OrderAsset();
+    transactionAsset = new BuyerOrderAsset();
   });
 
   describe('constructor', () => {

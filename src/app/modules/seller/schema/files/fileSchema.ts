@@ -1,6 +1,6 @@
 export const fileSchema = {
   $id: 'bazar/files',
-  title: 'fileSchama transaction for Files Asset',
+  title: 'fileSchema transaction for Files Asset',
   type: 'object',
   properties: {
     id: {

@@ -13,7 +13,7 @@ export default (): RequestHandler => async (req: Request, res: Response) => {
         errorCode: null,
       });
     } else {
-      throw new Error('No File found.')
+      throw new Error('No File found.');
     }
   } catch (err: unknown) {
     res.status(400).json({

@@ -59,8 +59,8 @@ const setPluginConfig = (config: ApplicationConfig, flags: Flags): void => {
   }
 };
 
-
-type StartFlags = typeof BaseStartCommand.flags & { // flagParser.Input<any>;
+type StartFlags = typeof BaseStartCommand.flags & {
+  // flagParser.Input<any>;
   'enable-http-api-plugin': flagParser.IFlag<boolean | undefined>;
   'http-api-plugin-port': flagParser.IFlag<number | undefined>;
   'http-api-plugin-whitelist': flagParser.IFlag<string | undefined>;

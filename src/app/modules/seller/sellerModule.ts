@@ -15,10 +15,12 @@ import { sellerPropsSchema } from './schema/account/schemaModule';
 import { allOrdersSchema } from './schema/order/allOrdersSchema';
 import { orderSchema } from './schema/order/orderSchema';
 import { registerOrderAssetSchema } from './schema/order/registerOrderAsset';
-import { AllOrders } from './types/order/allOrders';
-import { OrderType } from './types/order/orderType';
-import { RegisterOrderAccountType } from './types/order/registerOrderAccountType';
-import { RegisterOrderType } from './types/order/registerOrderAssetType';
+import {
+  AllOrders,
+  OrderType,
+  RegisterOrderAccountType,
+  RegisterOrderType,
+} from './types/orderTypes';
 
 export class SellerModule extends BaseModule {
   // Lifecycle hooks
@@ -41,7 +43,10 @@ export class SellerModule extends BaseModule {
 
   public async afterTransactionApply(_input: TransactionApplyContext) {
     if (_input.transaction.moduleID === this.id && _input.transaction.assetID === 0) {
-      const orderAsset = codec.decode<RegisterOrderType>(registerOrderAssetSchema, _input.transaction.asset);
+      const orderAsset = codec.decode<RegisterOrderType>(
+        registerOrderAssetSchema,
+        _input.transaction.asset,
+      );
 
       const pub = this._channel.publish('seller:newOrder', {
         sender: _input.transaction.senderAddress.toString('hex'),
@@ -69,9 +74,8 @@ export class SellerModule extends BaseModule {
     getLatestOrder: async (params: Record<string, unknown>) => {
       const { account: address } = params as { account: string };
       if (address) {
-        const account:
-          | RegisterOrderAccountType
-          | undefined = await this._dataAccess.getAccountByAddress(Buffer.from(address, 'hex'));
+        const account: RegisterOrderAccountType | undefined =
+          await this._dataAccess.getAccountByAddress(Buffer.from(address, 'hex'));
         return account.seller.orders;
       }
       const allOrderBuffer: Buffer | undefined = await this._dataAccess.getChainState('order/all');

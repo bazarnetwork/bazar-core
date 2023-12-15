@@ -49,7 +49,7 @@ export const buyerOrderSchema = {
       fieldNumber: 10,
       dataType: 'string',
     },
-    transacctionPayment: {
+    transactionPayment: {
       fieldNumber: 11,
       dataType: 'string',
     },

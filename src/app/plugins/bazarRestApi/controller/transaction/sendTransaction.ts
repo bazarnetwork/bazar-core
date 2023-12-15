@@ -1,8 +1,5 @@
 // import { channel } from 'diagnostics_channel';
-import {
-  Request,
-  Response,
-} from 'express';
+import { Request, Response } from 'express';
 import {
   BaseChannel,
   cryptography,
@@ -55,57 +52,55 @@ function transferToken(
 }
 
 function transformAsset(payload: Record<string, unknown>) {
-  return transferToken((payload as unknown) as TransactionType<TransferTokenUI>);
+  return transferToken(payload as unknown as TransactionType<TransferTokenUI>);
 }
 
-export default (channel: BaseChannel, codec: PluginCodec) => async (
-  request: Request,
-  response: Response,
-) => {
-  try {
-    const { payload } = request.body as { payload: Record<string, unknown> };
-    if (payload.moduleID !== undefined || payload.assetID !== undefined) {
-      const passphrase = ''; // TODO
-      const publicKey = cryptography.getPrivateAndPublicKeyFromPassphrase(passphrase);
+export default (channel: BaseChannel, codec: PluginCodec) =>
+  async (request: Request, response: Response) => {
+    try {
+      const { payload } = request.body as { payload: Record<string, unknown> };
+      if (payload.moduleID !== undefined || payload.assetID !== undefined) {
+        const passphrase = ''; // TODO
+        const publicKey = cryptography.getPrivateAndPublicKeyFromPassphrase(passphrase);
 
-      const transactionAssets = (await getSchema(channel)).transactionsAssets as {
-        moduleID: number;
-        assetID: number;
-        schema: Record<string, unknown>;
-      }[];
+        const transactionAssets = (await getSchema(channel)).transactionsAssets as {
+          moduleID: number;
+          assetID: number;
+          schema: Record<string, unknown>;
+        }[];
 
-      const index = transactionAssets.findIndex(
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        t => `${t.moduleID}` === `${payload.moduleID}` && `${t.assetID}` === `${payload.assetID}`,
-      );
-      const { schema } = transactionAssets[index];
-      const netId = (await getNodeInfo(channel)).networkIdentifier as string;
+        const index = transactionAssets.findIndex(
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          t => `${t.moduleID}` === `${payload.moduleID}` && `${t.assetID}` === `${payload.assetID}`,
+        );
+        const { schema } = transactionAssets[index];
+        const netId = (await getNodeInfo(channel)).networkIdentifier as string;
 
-      const { id, ...tx } = transactions.signTransaction(
-        schema,
-        {
-          ...transformAsset(payload),
-          fee: BigInt(payload.fee as string),
-          nonce: BigInt(payload.nonce as string),
-          senderPublicKey: publicKey,
-        },
-        Buffer.from(netId, 'hex'),
-        passphrase,
-      );
+        const { id, ...tx } = transactions.signTransaction(
+          schema,
+          {
+            ...transformAsset(payload),
+            fee: BigInt(payload.fee as string),
+            nonce: BigInt(payload.nonce as string),
+            senderPublicKey: publicKey,
+          },
+          Buffer.from(netId, 'hex'),
+          passphrase,
+        );
 
-      const encodedTransaction = codec.encodeTransaction((tx as unknown) as TransactionJSON);
-      const result = await postTransaction(channel, encodedTransaction);
+        const encodedTransaction = codec.encodeTransaction(tx as unknown as TransactionJSON);
+        const result = await postTransaction(channel, encodedTransaction);
 
-      response
-        .status(200)
-        .json({ data: result, meta: request.body as { payload: Record<string, unknown> } });
-    } else {
-      throw new Error('Transaction has incorrect parameters');
+        response
+          .status(200)
+          .json({ data: result, meta: request.body as { payload: Record<string, unknown> } });
+      } else {
+        throw new Error('Transaction has incorrect parameters');
+      }
+    } catch (err: unknown) {
+      response.status(409).json({
+        data: (err as string).toString(),
+        meta: request.body as { payload: Record<string, unknown> },
+      });
     }
-  } catch (err: unknown) {
-    response.status(409).json({
-      data: (err as string).toString(),
-      meta: request.body as { payload: Record<string, unknown> },
-    });
-  }
-};
+  };

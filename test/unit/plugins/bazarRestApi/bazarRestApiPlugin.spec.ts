@@ -1,6 +1,6 @@
 // import * as plugins from '../../../src/app/plugins/bazarrestapi';
 
-describe('BazarrestapiPlugin', () => {
+describe('BazarRestApiPlugin', () => {
   describe('alias', () => {
     it.todo('should have valid alias');
   });

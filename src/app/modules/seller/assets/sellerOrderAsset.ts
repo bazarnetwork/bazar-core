@@ -1,10 +1,8 @@
 import { ApplyAssetContext, BaseAsset, codec, StateStore, ValidateAssetContext } from 'lisk-sdk';
-import { allOrdersSchema } from '../schema/order/allOrdersSchema';
-import { AllOrders } from '../types/order/allOrders';
-import { orderSchema } from '../schema/order/orderSchema';
+import { AllOrders, RegisterOrderAccountType, RegisterOrderType } from '../types/orderTypes';
 import { registerOrderAssetSchema } from '../schema/order/registerOrderAsset';
-import { RegisterOrderType } from '../types/order/registerOrderAssetType';
-import { RegisterOrderAccountType } from '../types/order/registerOrderAccountType';
+import { allOrdersSchema } from '../schema/order/allOrdersSchema';
+import { orderSchema } from '../schema/order/orderSchema';
 
 const getAllOrders = async (stateStore: StateStore) => {
   const all = await stateStore.chain.get('order/all');
@@ -12,10 +10,9 @@ const getAllOrders = async (stateStore: StateStore) => {
     const orders: AllOrders = codec.decode(allOrdersSchema, all);
     return orders;
   }
-    return {
-      orders: [],
-    };
-
+  return {
+    orders: [],
+  };
 };
 
 export class SellerOrderAsset extends BaseAsset {
@@ -45,7 +42,7 @@ export class SellerOrderAsset extends BaseAsset {
       transaction.senderAddress,
     );
 
-    const newfiles = (asset.files)
+    const newFiles = asset.files
       ? asset.files.map(file => ({
           filename: file.filename,
           fileType: file.fileType,
@@ -64,7 +61,7 @@ export class SellerOrderAsset extends BaseAsset {
       minQuantityToSell: asset.minQuantityToSell,
       quantity: asset.quantity,
       price: asset.price,
-      files: newfiles,
+      files: newFiles,
       transport: [],
       date: Math.floor(Date.now() / 1000),
       author: sender.address,

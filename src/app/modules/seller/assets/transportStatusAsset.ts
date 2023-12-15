@@ -1,9 +1,8 @@
 import { BaseAsset, ApplyAssetContext, ValidateAssetContext, cryptography, codec } from 'lisk-sdk';
-import { orderSchema } from '../schema/order/orderSchema';
+import { OrderType, RegisterOrderAccountType } from '../types/orderTypes';
+import { TransportStatusType } from '../types/transportStatusTypes';
 import { transportStatusAssetSchema } from '../schema/transportStatus/transportStatusAsset';
-import { OrderType } from '../types/order/orderType';
-import { RegisterOrderAccountType } from '../types/order/registerOrderAccountType';
-import { TransportStatusType } from '../types/transportStatus/transportStatusType';
+import { orderSchema } from '../schema/order/orderSchema';
 
 const getId = (address: Buffer, nonce: bigint): Buffer => {
   const nonceBuffer = Buffer.alloc(8);
@@ -13,7 +12,6 @@ const getId = (address: Buffer, nonce: bigint): Buffer => {
 };
 
 export class TransportStatusAsset extends BaseAsset {
-
   public validate({ asset }: ValidateAssetContext<TransportStatusType>): void {
     if (asset.orderId.length <= 0) {
       throw new Error('Order Id is empty');
@@ -34,9 +32,9 @@ export class TransportStatusAsset extends BaseAsset {
     transaction,
     stateStore,
   }: ApplyAssetContext<TransportStatusType>): Promise<void> {
-    const sender = await stateStore
-      .account
-      .get<RegisterOrderAccountType>(transaction.senderAddress);
+    const sender = await stateStore.account.get<RegisterOrderAccountType>(
+      transaction.senderAddress,
+    );
 
     const orderBuffer = await stateStore.chain.get(asset.orderId);
     if (orderBuffer) {

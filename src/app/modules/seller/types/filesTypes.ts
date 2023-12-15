@@ -1,3 +1,7 @@
+export interface AllFiles {
+  files: string[];
+}
+
 export interface FileRecordType {
   orderId: string;
   filename: string;

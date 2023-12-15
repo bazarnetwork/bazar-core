@@ -1,12 +1,10 @@
 import { ApplyAssetContext, BaseAsset, codec, StateStore, ValidateAssetContext } from 'lisk-sdk';
 import { allOrdersSchema } from '../../seller/schema/order/allOrdersSchema';
 import { orderSchema } from '../../seller/schema/order/orderSchema';
-import { AllOrders } from '../../seller/types/order/allOrders';
-import { OrderType } from '../../seller/types/order/orderType';
+import { AllOrders, OrderType } from '../../seller/types/orderTypes';
 import { buyerOrderSchema } from '../schema/order/buyerOrderSchema';
 import { registerBuyerOrderAssetSchema } from '../schema/order/registerBuyerOrderAsset';
-import { RegisterBuyerOrderAccountType } from '../types/order/RegisterBuyerOrderAccountType';
-import { RegisterOrderType } from '../types/order/registerBuyerOrderType';
+import { RegisterBuyerOrderAccountType, RegisterOrderType } from '../types/orderTypes';
 
 const getAllOrders = async (stateStore: StateStore) => {
   const all = await stateStore.chain.get('purchasing_history/all');
@@ -34,11 +32,11 @@ export class BuyerOrderAsset extends BaseAsset {
     } else if (asset.valueXKg.length <= 0) {
       throw new Error('Value X Kg is empty');
     } else if (asset.quantity <= 0) {
-      throw new Error('Quantity hasnot value');
+      throw new Error('Quantity has not value');
     } else if (asset.totalPayToken.length <= 0) {
-      throw new Error('Total Payment in Token hasnot value');
+      throw new Error('Total Payment in Token has not value');
     } else if (asset.totalPayInUSD.length <= 0) {
-      throw new Error('Total Payment in USD hasnot value');
+      throw new Error('Total Payment in USD has not value');
     } else if (asset.transactionPayment.length <= 0) {
       throw new Error('Transaction Payment is empty');
     } else if (asset.accountSeller.length <= 0) {
@@ -75,7 +73,7 @@ export class BuyerOrderAsset extends BaseAsset {
           serviceFee: asset.serviceFee,
           totalPayToken: asset.totalPayToken,
           totalPayInUSD: asset.totalPayInUSD,
-          transacctionPayment: asset.transactionPayment,
+          transactionPayment: asset.transactionPayment,
           accountSeller: asset.accountSeller,
           accountBuyer: asset.accountBuyer,
           productId: asset.productId,
@@ -85,7 +83,7 @@ export class BuyerOrderAsset extends BaseAsset {
 
         await stateStore.chain.set(asset.buyerOrderId, codec.encode(buyerOrderSchema, buyerOrder));
 
-        // updading inventory
+        // updating inventory
         decodedOrder.quantity -= asset.quantity;
 
         const allOrders: AllOrders = await getAllOrders(stateStore);
@@ -99,7 +97,7 @@ export class BuyerOrderAsset extends BaseAsset {
         await stateStore.chain.set(asset.sellerOrderId, codec.encode(orderSchema, decodedOrder));
         await stateStore.account.set(sender.address, sender);
       } else {
-        throw new Error('Quantity to buy exceeds inventary');
+        throw new Error('Quantity to buy exceeds inventory');
       }
     }
   }

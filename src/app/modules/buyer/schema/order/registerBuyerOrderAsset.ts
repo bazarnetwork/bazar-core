@@ -12,7 +12,7 @@ export const registerBuyerOrderAssetSchema = {
     'quantity',
     'totalPayToken',
     'totalPayInUSD',
-    'transacctionPayment',
+    'transactionPayment',
     'accountSeller',
     'accountBuyer',
     'productId',
@@ -64,7 +64,7 @@ export const registerBuyerOrderAssetSchema = {
       fieldNumber: 10,
       dataType: 'string',
     },
-    transacctionPayment: {
+    transactionPayment: {
       fieldNumber: 11,
       dataType: 'string',
     },

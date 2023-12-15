@@ -8,15 +8,17 @@ import {
   codec,
   TransactionApplyContext,
 } from 'lisk-sdk';
+import {
+  BuyerOrderType,
+  RegisterOrderType,
+  RegisterBuyerOrderAccountType,
+} from './types/orderTypes';
 import { allOrdersSchema } from '../seller/schema/order/allOrdersSchema';
-import { AllOrders } from '../seller/types/order/allOrders';
+import { AllOrders } from '../seller/types/orderTypes';
 import { BuyerOrderAsset } from './assets/buyerOrderAsset';
 import { buyerPropsSchema } from './schema/account/schemaBuyerModule';
 import { buyerOrderSchema } from './schema/order/buyerOrderSchema';
 import { registerBuyerOrderAssetSchema } from './schema/order/registerBuyerOrderAsset';
-import { BuyerOrderType } from './types/order/BuyerOrderType';
-import { RegisterOrderType } from './types/order/registerBuyerOrderType'
-import { RegisterBuyerOrderAccountType } from './types/order/RegisterBuyerOrderAccountType';
 
 export class BuyerModule extends BaseModule {
   // Lifecycle hooks
@@ -39,7 +41,10 @@ export class BuyerModule extends BaseModule {
 
   public async afterTransactionApply(_input: TransactionApplyContext) {
     if (_input.transaction.moduleID === this.id && _input.transaction.assetID === 0) {
-      const orderAsset = codec.decode<RegisterOrderType>(registerBuyerOrderAssetSchema, _input.transaction.asset);
+      const orderAsset = codec.decode<RegisterOrderType>(
+        registerBuyerOrderAssetSchema,
+        _input.transaction.asset,
+      );
 
       const pub = this._channel.publish('buyer:newPurchaseOrder', {
         sender: _input.transaction.senderAddress.toString('hex'),
@@ -68,14 +73,12 @@ export class BuyerModule extends BaseModule {
     getLatestOrder: async (params: Record<string, unknown>) => {
       const { account: address } = params as { account: string };
       if (address) {
-        const account:
-          | RegisterBuyerOrderAccountType
-          | undefined = await this._dataAccess.getAccountByAddress(Buffer.from(address, 'hex'));
+        const account: RegisterBuyerOrderAccountType | undefined =
+          await this._dataAccess.getAccountByAddress(Buffer.from(address, 'hex'));
         return account.buyer.orders;
       }
-      const allOrderBuffer: Buffer | undefined = await this._dataAccess.getChainState(
-        'purchasing_history/all',
-      );
+      const allOrderBuffer: Buffer | undefined =
+        await this._dataAccess.getChainState('purchasing_history/all');
       if (allOrderBuffer) {
         const allOrders: AllOrders = codec.decode(allOrdersSchema, allOrderBuffer);
         return allOrders.orders;
@@ -93,5 +96,4 @@ export class BuyerModule extends BaseModule {
   // public constructor(genesisConfig: GenesisConfig) {
   //     super(genesisConfig);
   // }
-
 }

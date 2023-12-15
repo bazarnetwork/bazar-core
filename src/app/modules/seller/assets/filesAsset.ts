@@ -1,9 +1,8 @@
 import { BaseAsset, ApplyAssetContext, ValidateAssetContext, cryptography, codec } from 'lisk-sdk';
 import { fileRecordAssetSchema } from '../schema/files/fileRecordAsset';
 import { orderSchema } from '../schema/order/orderSchema';
-import { FileRecordType } from '../types/files/fileRecordType';
-import { OrderType } from '../types/order/orderType';
-import { RegisterOrderAccountType } from '../types/order/registerOrderAccountType';
+import { FileRecordType } from '../types/filesTypes';
+import { OrderType, RegisterOrderAccountType } from '../types/orderTypes';
 
 const getId = (address: Buffer, nonce: bigint): Buffer => {
   const nonceBuffer = Buffer.alloc(8);
@@ -13,7 +12,6 @@ const getId = (address: Buffer, nonce: bigint): Buffer => {
 };
 
 export class FilesAsset extends BaseAsset {
-
   public validate({ asset }: ValidateAssetContext<FileRecordType>): void {
     if (asset.filename.length <= 0) {
       throw new Error('Filename is empty');
