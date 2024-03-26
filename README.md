@@ -1,3 +1,6 @@
+#Bazar Network uses no longer Lisk SDK or related products, its only here for support propuses
+
+
 <p align="center">
 <img src="https://github.com/bazarnetwork/bazar-landing-page/blob/release/public/assets/Logo.png">
 </p>
