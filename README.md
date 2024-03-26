@@ -1,4 +1,4 @@
-#Bazar Network uses no longer Lisk SDK or related products, its only here for support propuses
+# Bazar Network uses no longer Lisk SDK or related products, its only here for support propuses
 
 
 <p align="center">
